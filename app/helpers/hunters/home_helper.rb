@@ -1,0 +1,2 @@
+module Hunters::HomeHelper
+end

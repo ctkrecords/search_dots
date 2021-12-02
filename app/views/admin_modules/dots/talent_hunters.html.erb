@@ -1,0 +1,67 @@
+<%- model_class = TalentHunter -%>
+<div class="page-content">
+  <div class="page-header position-relative">
+    <h1>
+      Dots
+      <small>
+        <i class="icon-double-angle-right"></i>
+        Metas de Dots
+      </small>
+    </h1>
+  </div><!--/.page-header-->
+
+  <div class="row-fluid">
+    <div class="span12">
+      <div class="tabbable">
+        <%= render "dot_menu" %>
+        <div class="tab-content">
+          <div class="well">
+            <% if @work_calendar.nil? %>
+              <div class="alert warning">No se han definido Calendarios para <%=@selected_country.country.name%></div>
+            <% else%>
+              <h4>Metas de Dots para <%=@work_calendar.year%>
+              </h4>
+              <% end %>
+          </div>
+          <div class="tabbable tabs-left">
+            <ul class="nav nav-tabs">
+                <% @countries.each do |cc| %>
+                  <li <%=raw "class='active'" if (@selected_country.country_id.to_s==cc.country_id.to_s)%>>
+                    <a href="/admin_modules/dots/hunters?country_id=<%=cc.country_id%>"><%=cc.country.name%> </a>
+                  </li>
+                <% end %>
+            </ul>
+            <div class="tab-content">
+              <% unless @work_calendar.nil? %>
+                <%= link_to "Administrar metas de país", "/admin_modules/dots/assing_goals_for_dots/#{@selected_country.id}?selected_work_calendar=#{@work_calendar.id}", :class => 'btn btn-warning' %> <br><br>
+                <% end %>
+                <table class="table table-bordered table-hover">
+                  <thead>
+                    <tr>
+                      <th><%= model_class.human_attribute_name(:hunter) %></th>
+                      <%@selected_country.countries_dots.order("countries_dots.dot_id ASC").each do |dot| %>
+                        <th><p class="small"><%= dot.dot.name%></p></th>
+                      <% end %>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% @selected_country.country.talent_hunters.actives(current_admin.company_id).each do |hunter| %>
+                      <tr>
+                        <td>
+                          <%= image_tag(hunter.photo.url(:mini),:class=>"img-rounded")%> <span class='label label-info'><%=hunter.full_name%></span>
+                        </td>
+
+                        <%hunter.talent_hunters_dots.where(:work_calendar_id=>@work_calendar.id).order("dot_id ASC").each do |dot| %>
+                          <td><%=dot.goal%></td>
+                        <% end %>
+                      </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

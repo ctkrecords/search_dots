@@ -1,0 +1,144 @@
+<!-- <script src="/assets/js_highchart/highcharts.js"></script>
+<script src="/assets/js_highchart/modules/exporting.js"></script>
+ -->
+<div class="page-content">
+  <div class="page-header">
+  <div class="pull-right">
+	    <%=form_for @dots, :as => :date, :url => modules_reports_company_path, :method=>:get,:class=>"form-inline" do |f| %>
+	        <div class="input-append">
+	            <input class="date-picker span2" id="date_starts_at" name="date[starts_at]" type="text" data-date-format="dd/mm/yyyy" value="<%=@dots.starts_at%>" />
+	            <span class="add-on">
+	              <i class="icon-calendar"></i>
+	            </span>
+
+	            <%= f.submit "Ir", :class => 'btn btn-info btn-small' %>
+	        
+
+	        <% if current_admin.is_company_admin %>
+				<%=link_to modules_reports_company_path(date: {:starts_at=>@dots.starts_at},format: "xls", country_id: @selected_country), :target=>"_blank", :class=>'btn btn-yellow btn-small"' do%>
+					<i class="icon-cloud-download"></i> Excel
+				<% end %>
+	        <% elsif current_admin.is_country_admin %>
+				<%=link_to modules_reports_show_path(date: {:starts_at=>@dots.starts_at},format: "xls", country_id: @selected_country), :target=>"_blank", :class=>'btn btn-yellow btn-small"' do%>
+					<i class="icon-cloud-download"></i> Excel
+				<% end %>
+	       <% end %>
+	       </div>
+	    <%end%>
+
+				
+  	</div>
+    <h1>
+      Dots Global
+      <small>
+        <i class="icon-double-angle-right"></i>
+        Semana del <%=@selected_timeframe.starts_at.to_date%> al <%=@selected_timeframe.ends_at.to_date%> 
+        <br>
+        <%="<span class='label label-warning'>Este periodo posiblemente no tenga datos porque esta desabilitado por el administrador</span>".html_safe if @selected_timeframe.is_disabled%>	
+      </small>
+    </h1>
+
+					<div class="btn-group">
+						<button class="btn btn-mini btn-primary">Pais [<%=@work_calendar.country.name %>]</button>
+					    <% if current_admin.is_company_admin %>	
+					    <button data-toggle="dropdown" class="btn btn-mini btn-primary dropdown-toggle"><span class="caret"></span></button>
+					    <ul class="dropdown-menu">
+					    	<% current_admin.company.companies_countries.each do |ccountry| %>
+					    	<li>
+					    		<% if params[:date] and !params[:date][:starts_at].nil?%>
+					    			<a href="/modules/reports/company?country_id=<%=ccountry.country_id%>&date[starts_at]=<%=params[:date][:starts_at]%>"><%=ccountry.country.name %></a>
+					    		<% else %>
+					    			<a href="/modules/reports/company?country_id=<%=ccountry.country_id%>"><%=ccountry.country.name %></a>
+					    		<% end %>
+					    	</li>
+					    	<% end %>
+					    </ul>
+					    <% end %>
+				    </div>
+			    </div>
+    
+
+  <!--/.page-header-->
+
+  <div class="row-fluid">
+    <div class="span12">
+      <%= render "partials/notices" %>
+      <%@countries.each do |country| %>
+		<% if country.country.talent_hunters.where(:is_active=>true).size>0 %>
+		<span class="label label-large label-primary arrowed-right"><strong><%=country.country.name%></strong></span>
+		<table  class="table table-striped table-bordered table-hover">
+			<thead>
+				<th>Talent Hunter</th>
+				<%country.dots.where(:is_deleted=>false).order("dots.id ASC").each do |dot| %>
+					<th style="font-size: 0.8em !important"><span style="background-color:<%=dot.color%>" class="btn-colorpicker"></span> <%=dot.name%></th>
+				<% end %>
+			</thead>
+			<tbody>
+				<%country.country.talent_hunters.for_report.order("talent_hunters.created_at ASC").each do |hunter| %>
+					<tr>
+						<td><%=hunter.full_name%></td>
+						<% dot_sum=nil %>
+						<% hunter.talent_hunters_dots.where(:work_calendar_id=>@work_calendar.id).includes(:dot).order("dots.id ASC").each do |goal| %>
+							<td class="dot_<%=country.country_id%>_<%=goal.dot_id%>">
+								<!--% scored=goal.dots_scoreds.includes(:work_timeframe).where("work_timeframes.n_number=?",@selected_timeframe.n_number).first%-->								
+								<% scored=goal.dots_scoreds.includes(:work_timeframe).
+								where("work_timeframes.n_number=?", @selected_timeframe.n_number)%>								
+								<!--%=scored.total%-->
+								<%=scored.sum("total")%>
+							</td>
+						<% end %>
+					</tr>
+				<% end %>
+				<tr>
+					<td>TOTAL</td>
+					<%country.dots.where(:is_deleted=>false).order("dots.id ASC").each do |dot| %>
+						<td class="dot_sum_<%=country.country_id%>_<%=dot.id%>">
+						</td>
+						<script>
+							sum=0;
+							$('.dot_<%=country.country_id%>_<%=dot.id%>').each(function(index) {
+								console.log( index + ": " + $(this).text() );
+								sum+=Number($(this).text());
+							});
+							//console.log("Total : " + sum );
+							$('.dot_sum_<%=country.country_id%>_<%=dot.id%>').text(sum);
+						</script>
+					<% end %>
+				</tr>
+				<tr>
+					<td>META</td>
+					<%country.country.talent_hunters.for_report.first.talent_hunters_dots.where(:work_calendar_id=>@work_calendar.id).includes(:dot).order("dots.id ASC").each do |dot| %>
+						<td class="goal_<%=dot.dot_id%>_<%=country.country_id%>"><%=dot.goal%></td>
+					<% end %>
+				</tr>
+				<tr>
+					<td>Compañia</td>
+					<%country.dots.where(:is_deleted=>false).order("dots.id ASC").each do |dot| %>
+						<td class="dot_total_<%=country.country_id%>_<%=dot.id%>">
+						</td>
+						<script>
+							total=1;
+							$('.goal_<%=dot.id%>_<%=country.country_id%>').each(function(index) {
+								//console.log( index + ": " + $(this).text() );
+								total=Number($(this).text())*Number('<%=country.country.talent_hunters.for_report.size%>');
+							});
+							// console.log("Total Final: " + sum );
+							$('.dot_total_<%=country.country_id%>_<%=dot.id%>').prev().text("Compañia (<%=country.country.talent_hunters.for_report.size%>)");
+							$('.dot_total_<%=country.country_id%>_<%=dot.id%>').text(total);
+						</script>
+					<% end %>
+				</tr>
+			</tbody>
+		</table>
+		<hr>
+		<% end %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<script>
+	$('.date-picker').datepicker().next().on(ace.click_event, function(){
+		$(this).prev().focus();
+	});
+</script>

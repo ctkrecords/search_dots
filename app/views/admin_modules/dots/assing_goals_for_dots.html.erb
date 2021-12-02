@@ -1,0 +1,66 @@
+<script>
+  function save_dot_goal(hunter_id,goal_id){
+    var id_text=hunter_id+"_"+goal_id;
+    //alert(id_text); // 1
+    var val= $("#"+id_text).val();
+    //alert(val);
+
+    $.get("/admin_modules/dots/assing_goals?goal_id="+goal_id+"&goal_value="+val, function(result) {
+      if (result == false)
+      {
+        //alert("Nice try. Now do it again using correct password!");
+      }else if (result == true){
+        alert("Nice");
+        location.reload();
+      }
+    });
+  }
+</script>
+<div class="page-content">
+  <div class="page-header position-relative">
+    <h1>
+      Metas de DOT'S 
+      <small>
+        <i class="icon-double-angle-right"></i>
+        para <%=@country.country.name%>
+      </small>
+    </h1>
+  </div><!--/.page-header-->
+
+  <div class="row-fluid">
+    <div class="span12">
+      <div class="tabbable">
+        <%= render "dot_menu" %>
+        <div class="tab-content">
+          <table class="table table-bordered table-hover" style="width:auto">
+                  <thead>
+                    <tr>
+                      <th>Hunters</th>
+                      <th>Dots</th>
+                      <th>Meta</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><%= image_tag(@hunter.photo.url(:thumb),:class=>"img-rounded")%> <span class='label label-large arrowed-right label-important'><%= @hunter.full_name %></span></td>
+                      <td >
+                        <ul class="nav nav-pills">
+                          <%=raw @hunter.talent_hunters_dots.where(:work_calendar_id=>params[:selected_work_calendar]).order("id ASC").map {|hunter| "<span class='label label-info' style='padding:4px;margin:5px;'>#{hunter.dot.name}</span><br>"}.join("")%>
+                        </ul>
+                      </td>
+                      <td >
+                        <ul class="nav nav-pills">
+                          <%=raw @hunter.talent_hunters_dots.where(:work_calendar_id=>params[:selected_work_calendar]).order("id ASC").map {|goal| "<input type='text' value='#{goal.goal}' id='#{@hunter.id}_#{goal.id}' class='input-mini search-query' size='10' style='margin-bottom:2px;padding:4px;' onchange='save_dot_goal(#{@hunter.id},#{goal.id})' /><br>"}.join("")%>
+                        </ul>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <!-- Button to trigger modal -->
+                <a href="/admin_modules/dots/hunters" class="btn btn-info" >Regresar</a>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>

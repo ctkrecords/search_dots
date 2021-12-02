@@ -1,0 +1,15 @@
+<%= simple_form_for @admin,:url => url_for("/admin_modules/admins"), :html => { :class => 'form-horizontal' } do |f| %>
+  <%= f.input :firstname %>
+  <%= f.input :lastname %>
+  <%= f.input :email %>
+  <%= f.association :admin_type, collection:AdminType.no_root, label_method: :name, value_method: :id%>
+  <%= f.association :country, collection: current_admin.company.countries.all(:conditions=>["is_deleted=?",false]), label_method: :name, value_method: :id%>
+  <%= f.input :password %>
+  <%= f.input :password_confirmation %>
+  <div class="form-actions">
+    <%= f.button :submit, :class => 'btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                admin_modules_admins_path, :class => 'btn' %>
+  </div>
+<% end %>
+

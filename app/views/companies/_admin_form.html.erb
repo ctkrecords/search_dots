@@ -1,0 +1,12 @@
+<%= simple_form_for @admin, :url => url_for("/companies/update_admin/#{@admin.id}"),:html => { :class => 'form-horizontal' } do |f| %>
+  <%= f.input :firstname %>
+  <%= f.input :lastname %>
+  <%= f.input :email %>
+  <%= f.association :admin_type, collection: AdminType.no_root.all, prompt:"Nivel del acceso", include_blank: false%>
+  <%= f.association :country, collection: @admin.company.countries.all(:conditions=>["is_deleted=?",false]), prompt:"País", include_blank: false%>
+  <div class="form-actions">
+    <%= f.button :submit, :class => 'btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                "/companies/admins/#{@admin.company_id}", :class => 'btn' %>
+  </div>
+<% end %>

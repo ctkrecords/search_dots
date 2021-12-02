@@ -1,0 +1,443 @@
+<script src="/assets/js_highchart/highcharts.js"></script>
+<script src="/assets/js_highchart/modules/exporting.js"></script>
+<style>
+	table td,table th {
+		text-transform: uppercase;
+		padding: 2px 5px !important;
+		font-size: 10px !important;
+	}
+</style>
+<script>
+	function save_dot_score(hunter_id,scored_id){
+		var id_text=hunter_id+"_"+scored_id;
+		//alert(id_text); // 1
+		var val= $("#"+id_text).val();
+		//alert(val);
+
+		$.get("/modules/dots/assing_scored?scored_id="+scored_id+"&score_total="+val, function(result) {
+			if (result == false)
+			{
+				alert("Nice try. Now do it again using correct password!");
+			}else if (result == true){
+				alert("Nice");
+				location.reload();
+			}
+		});
+	}
+
+	function get_dot_total(dot_id){
+		$sum_dot=0
+		$("input:text.dot_"+dot_id).each(function() {
+			$sum_dot+=Number($(this).val());
+		});
+		//alert($sum_dot);
+		$("#td_dot_"+dot_id).html($sum_dot);
+	}
+</script>
+<div class="page-content">
+	<div class="page-header position-relative pull-left">
+		<h1>
+			Dots
+			<small>
+				<i class="icon-double-angle-right"></i>
+				Historial
+			</small>
+		</h1>
+	</div>
+	
+	<div class="pull-right">
+		<%=form_for @dots, :as => :date, :url => hunters_dots_path, :method=>:get,:class=>"form-inline" do |f| %>
+      		Desde   		<div class="input-append">
+      			<input class="date-picker" id="date_starts_at" name="date[starts_at]" type="text" data-date-format="dd/mm/yyyy" value="<%=@dots.starts_at%>" />
+      			<span class="add-on">
+      				<i class="icon-calendar"></i>
+      			</span>
+      		</div>
+      		Hasta 
+      		<div class="input-append">
+      			<input class="date-picker" id="date_ends_at" name="date[ends_at]" type="text" data-date-format="dd/mm/yyyy" value="<%=@dots.ends_at%>" />
+      			<span class="add-on">
+      				<i class="icon-calendar"></i>
+      			</span>
+      			<%= f.submit 'refrescar', :class => 'btn btn-info btn-small' %>
+      		</div>
+      		
+		<%end%>
+	</div><!--/.page-header-->
+	
+	<div class="row-fluid">
+			
+		<!-- Infobox de DOTS 
+		<div class="span12 infobox-container">
+
+			<div class="infobox infobox-pink  ">
+				<div class="infobox-chart">
+					<span class="sparkline" data-values="196,128,202,177,154,94,100,170,224"></span>
+				</div>
+
+				<div class="infobox-data">
+					<span class="infobox-data-number">6,251</span>
+					<div class="infobox-content">Job Orders</div>
+				</div>
+
+				<div class="badge badge-success">
+					7.2%
+					<i class="icon-arrow-up"></i>
+				</div>
+			</div>
+
+			<div class="infobox infobox-blue  ">
+				<div class="infobox-icon">
+					<i class="icon-suitcase"></i>
+				</div>
+
+				<div class="infobox-data">
+					<span class="infobox-data-number">11</span>
+					<div class="infobox-content">Colocados Reales</div>
+				</div>
+
+				<div class="badge badge-success">
+					+32%
+					<i class="icon-arrow-up"></i>
+				</div>
+			</div>
+
+			<div class="infobox infobox-orange ">
+				<div class="infobox-progress">
+					<div class="easy-pie-chart percentage" data-percent="25" data-size="46">
+						<span class="percent">25</span>
+						%
+					</div>
+				</div>
+
+				<div class="infobox-data">
+					<span class="infobox-content">Billing Mesual.</span>
+					<div class="infobox-content">$ 120,000 </div>
+				</div>
+			</div>
+
+			<div class="infobox infobox-purple  ">
+				<div class="infobox-icon">
+					<i class="icon-archive"></i>
+				</div>
+
+				<div class="infobox-data">
+					<span class="infobox-data-number">11</span>
+					<div class="infobox-content">Colocados Reales</div>
+				</div>
+
+				<div class="badge badge-success">
+					+32%
+					<i class="icon-arrow-up"></i>
+				</div>
+			</div>
+		</div> -->
+	</div>
+	<div class="span12"><br></div>	
+	<div class="row-fluid">
+		<!-- Tabla de Datos de la Semana -->
+		<div class="span12">
+			<div class="widget-box">
+				<div class="widget-header widget-header-flat widget-header-small header-color-grey">
+					<h4 class="lighter">
+						<i class="icon-flickr"></i>
+						Resultados Dots  
+					</h4>
+				</div>
+
+				<div class="widget-body">
+					<div class="widget-main no-padding">
+
+						<table class="table table-bordered table-hover table-condensed" >
+							<thead>
+								<tr>
+									<th class="header-color-grey text-white">Semana</th>
+									<% @hunter.talent_hunters_dots.where(:work_calendar_id=>@work_calendar.id).order("id asc").each do |goal| %>
+										<td ><!-- <span style="background-color:<%#=goal.dot.color%>" class="btn-colorpicker"></span> --><span style="font-size:10px "> <span class="bolder smaller-90"><%=goal.dot.name%></span></td>
+									<% end %>
+									<th>Opciones</th>
+								</tr>
+							</thead>
+							<tbody>
+    						<%# timesframes_chart=@work_calendar.work_timeframes.where("n_number between 1 and #{@current_timeframe.n_number}")%>
+								
+    							<%@selected_timeframes.active.order("n_number DESC").each do |timef|%>
+								<tr>
+									<td class="header-color-grey text-white">
+										<span title="" data-placement="right" data-rel="tooltip" class="btn-small tooltip-primary" data-original-title="<%=timef.starts_at %> al <%= timef.ends_at %>">Semana <%= timef.n_number%></span>
+									</td>
+									<% @hunter.talent_hunters_dots.where(:work_calendar_id=>@work_calendar.id).order("id asc").each do |goal| %>
+										<% goal.dots_scoreds.where(:work_timeframe_id=>timef.id).each do |scored| %>
+										<% if scored.total < scored.talent_hunters_dot.goal 
+											dot_class="red"
+										   elsif scored.total== scored.talent_hunters_dot.goal 
+										   	dot_class="yellow2"
+										   else
+											dot_class="green"
+										   end
+										%>
+										<td class="center">
+											<span class="badge badge-<%=dot_class%>">
+												<%=scored.total%>
+											</span>
+										</td>
+										<% end %>
+									<% end %>
+									<td>
+										<div class="hidden-phone visible-desktop btn-group">
+											<a href="#" role="button" class="btn btn-mini btn-success" data-toggle="modal"  id="my_show_dot_box_link_<%=timef.id%>" ><i class="icon-ok"></i></a>
+
+											<a href="#" role="button" class="btn btn-mini btn-info" data-toggle="modal" id="my_edit_dot_box_link_<%=timef.id%>"><i class="icon-edit"></i></a>
+										</div>
+
+										<div class="hidden-desktop visible-phone">
+											<div class="inline position-relative">
+												<button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown">
+													<i class="icon-cog icon-only bigger-110"></i>
+												</button>
+
+												<ul class="dropdown-menu dropdown-icon-only dropdown-yellow pull-right dropdown-caret dropdown-close">
+													<li>
+
+														<a href="/hunters/dots/<%=timef.id%>" class="tooltip-info" data-rel="tooltip" title="View">
+															<span class="blue">
+																<i class="icon-zoom-in bigger-120"></i>
+															</span>
+														</a>
+													</li>
+
+													<li>
+														<a href="/hunters/dots/<%=timef.id%>/edit" class="tooltip-success" data-rel="tooltip" title="Edit">
+
+															<span class="green">
+																<i class="icon-edit bigger-120"></i>
+															</span>
+														</a>
+													</li>
+												</ul>
+											</div>
+										</div>
+										 
+										<!-- Show Modal -->
+										<div id="my_show_dot_box_<%=timef.id%>" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+										  <div class="modal-header">
+										    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+										    <h3 id="myModalLabel">Semana de  <%= timef.starts_at %> al <%= timef.ends_at %> </h3>
+										  </div>
+										  <div class="modal-body" id="modal-body-<%=timef.id%>">
+										  	
+										  </div>
+										  <div class="modal-footer">
+										    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+										  </div>
+										</div>
+										<!-- Edit Modal -->
+										<div id="my_edit_dot_box_<%=timef.id%>" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+										  <div class="modal-header">
+										    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+										    <h3 id="myModalLabel">Editanto </h3>
+										  </div>
+										  <div class="modal-body" id="modal-body-edit-<%=timef.id%>">>
+
+										  </div>
+										  <div class="modal-footer">
+										    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+										  </div>
+										</div>
+
+										<script>
+										$(function() {
+											$('#my_show_dot_box_link_<%=timef.id%>').on('click',function(e) {
+												e.preventDefault();
+												$("#my_show_dot_box_<%=timef.id%>").modal('show');
+												$("#modal-body-<%=timef.id%>").load("/hunters/dots/<%=timef.id%>?modal=1");
+											});
+											$('#my_edit_dot_box_link_<%=timef.id%>').on('click',function(e) {
+												e.preventDefault();
+												$("#my_edit_dot_box_<%=timef.id%>").modal('show');
+												$("#modal-body-edit-<%=timef.id%>").load("/hunters/dots/<%=timef.id%>/edit?modal=1");
+												$("#my_edit_dot_box_<%=timef.id%>").on('hidden', function () {
+												 location.reload();
+												})
+											});
+										});
+										</script>
+									</td>
+								</tr>
+								<% end %>
+								<tr>
+									<th class="header-color-grey text-white">
+										Total
+									</th>
+									<% @hunter.talent_hunters_dots.where(:work_calendar_id=>@work_calendar.id).order("dot_id asc").each do |goal| %>
+										<% scored=goal.dots_scoreds.where(:work_timeframe_id=>@selected_timeframes.map(&:id)) %>
+										<th class="center">
+											<span class="badge badge-info">
+												<%=scored.sum("total")%>
+											</span>
+										</th>
+									<% end %>
+									<th>
+
+									</th>
+								</tr>
+								<tr>
+									<th class="header-color-grey text-white">
+										Meta
+									</th>
+									<% @hunter.talent_hunters_dots.where(:work_calendar_id=>@work_calendar.id).order("dot_id asc").each do |goal| %>
+										
+										<th class="center">
+											<span class="badge badge-info">
+												<%=goal.goal*@selected_timeframes.count%>
+											</span>
+										</th>
+									<% end %>
+									<th>
+
+									</th>
+								</tr>
+								<tr>
+									<th class="header-color-grey text-white">
+										+ / -
+									</th>
+									<% @hunter.talent_hunters_dots.where(:work_calendar_id=>@work_calendar.id).order("dot_id asc").each do |goal| %>
+										<% scored=goal.dots_scoreds.where(:work_timeframe_id=>@selected_timeframes.map(&:id)) %>
+										<% f_total=(scored.sum("total")-(goal.goal*@selected_timeframes.count))%>
+										<th class="center">
+											<span class="badge badge-purple">
+												<%= "+" if f_total > 0%><%=f_total%>
+											</span>
+										</th>
+									<% end %>
+									<th>
+
+									</th>
+								</tr>
+							</tbody>
+						</table>
+					</div><!--/widget-main-->
+				</div><!--/widget-body-->
+			</div><!--/widget-box-->
+		</div>
+
+		<div class="span12"><br></div>
+		<!-- GRafico de DOTS -->	
+		<div class="span12" style="margin-left:0 ">
+			<div class="widget-box">
+				<div class="widget-header widget-header-flat">
+					<h4 class="lighter">
+						<i class="icon-bar-chart"></i>
+						Dots Stats
+					</h4>
+				</div>
+
+				<div class="widget-body">
+					<div class="widget-main padding-4">
+						<div id="columnchart-placeholder"></div>
+					</div><!--/widget-main-->
+				</div><!--/widget-body-->
+			</div><!--/widget-box-->
+		</div>
+
+			
+	</div>
+</div>
+
+<script type="text/javascript">
+	$(function() {
+
+		$('.date-picker').datepicker().next().on(ace.click_event, function(){
+			$(this).prev().focus();
+		});
+
+		$('[data-rel=tooltip]').tooltip();
+
+		$('.easy-pie-chart.percentage').each(function(){
+			var $box = $(this).closest('.infobox');
+			var barColor = $(this).data('color') || (!$box.hasClass('infobox-dark') ? $box.css('color') : 'rgba(255,255,255,0.95)');
+			var trackColor = barColor == 'rgba(255,255,255,0.95)' ? 'rgba(255,255,255,0.25)' : '#E2E2E2';
+			var size = parseInt($(this).data('size')) || 50;
+			$(this).easyPieChart({
+				barColor: barColor,
+				trackColor: trackColor,
+				scaleColor: false,
+				lineCap: 'butt',
+				lineWidth: parseInt(size/10),
+				animate: /msie\s*(8|7|6)/.test(navigator.userAgent.toLowerCase()) ? false : 1000,
+				size: size
+			});
+		});
+
+		$('.sparkline').each(function(){
+			var $box = $(this).closest('.infobox');
+			var barColor = !$box.hasClass('infobox-dark') ? $box.css('color') : '#FFF';
+			$(this).sparkline('html', {tagValuesAttribute:'data-values', type: 'bar', barColor: barColor , chartRangeMin:$(this).data('min') || 0} );
+		});
+		// HIGHCHART
+		$('#columnchart-placeholder').highcharts({
+		    chart: {
+		        type: 'column'
+		    },
+		    title: {
+		        text: 'Dots desde <%=l @dots.starts_at, :format=> :short%> hasta <%=l @dots.ends_at, :format=> :short%>'
+		    },
+		    subtitle: {
+		        text: '<%=@hunter.firstname%> <%=@hunter.lastname%>'
+		    },
+		    xAxis: {
+		        categories: [
+		        <%@selected_timeframes.each do |times| %>
+		        	'Sem <%=times.n_number%>',
+		        <% end %>
+		        ]
+		    },
+		    yAxis: {
+		        min: 0,
+		        title: {
+		            text: ''
+		        }
+		    },
+		    tooltip: {
+		        headerFormat: "<span class='label label-info arrowed-right arrowed-in-left'>{point.key}</span><table>",
+		        pointFormat: "<tr><td style='color:{series.color};padding:0'>{series.name}:</td>" +
+		            '<td style="padding:0"><b>{point.y}</b></td></tr>',
+		        footerFormat: '</table>',
+		        shared: true,
+		        useHTML: true
+		    },
+		    plotOptions: {
+		        column: {
+		            pointPadding: 0.2,
+		            borderWidth: 0,
+		            dataLabels: {
+		            	enabled: true,
+		            	formatter: function () {
+		            		return this.y;
+		            	}
+		            }
+		        }
+		    },
+		    credits: {
+				enabled: false
+			},
+		    series: [
+		    <% @hunter.talent_hunters_dots.where(:work_calendar_id=>@work_calendar.id).order("id ASC").each do |goal| %>
+		    {
+		    	name: '<%=goal.dot.name%>',
+		    	data:[
+		    	<% @selected_timeframes.each do |times| %>
+		       		<% goal.dots_scoreds.where(:work_timeframe_id=>times.id).each do |scored| %>
+		       			<%=scored.total%>,
+		       		<% end %>
+		       	<% end %>
+		    	],
+		    	color: "<%=goal.dot.color.blank? ? '#ccc':goal.dot.color%>",
+		    	
+		    },
+		    <% end %>
+		    ]
+		});
+
+	});
+</script>

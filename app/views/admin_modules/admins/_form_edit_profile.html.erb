@@ -1,0 +1,11 @@
+<%= simple_form_for @admin, :url => url_for("/admin_modules/update_profile/#{@admin.id}"), :html => { :class => 'form-horizontal' } do |f| %>
+  <%= f.input :firstname %>
+  <%= f.input :lastname %>
+  <%= f.input :email %>
+  <div class="form-actions">
+    <%= f.button :submit, :class => 'btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                "/admin_modules/my_profile", :class => 'btn' %>
+  </div>
+<% end %>
+

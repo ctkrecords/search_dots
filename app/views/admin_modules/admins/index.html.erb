@@ -1,0 +1,45 @@
+<%- model_class = Admin -%>
+<%=render "partials/notices" %>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.pluralize %></h1>
+</div>
+<table class="table table-bordered table-hover table-striped" id="admins">
+  <thead>
+    <tr>
+      <th><%= model_class.human_attribute_name(:id) %></th>
+      <th><%= model_class.human_attribute_name(:fullname) %></th>
+      <th><%= model_class.human_attribute_name(:country_id) %></th>
+      <th><%= model_class.human_attribute_name(:admin_type_id) %></th>
+      <th><%= model_class.human_attribute_name(:company_id) %></th>
+      <th><%= model_class.human_attribute_name(:email) %></th>
+      <th><%= model_class.human_attribute_name(:last_sign_in_at) %></th>
+      <th><%=t '.actions', :default => t("helpers.actions") %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @admins.each do |admin| %>
+      <tr>
+        <td><%= link_to admin.id, admin_modules_admin_path(admin) %></td>
+        <td><%= admin.fullname %></td>
+        <td><%=admin.country.shortname unless admin.country_id.nil? %></td>
+        <td><%=admin.admin_type.name  unless admin.admin_type_id.nil? %></td>
+        <td><%=admin.company.name  unless admin.company_id.nil? %></td>
+        <td><%= admin.email %></td>
+        <td><%=h admin.last_sign_in_at %></td>
+        <td>
+          <% unless admin.is_root%>
+            <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                        edit_admin_modules_admin_path(admin), :class => 'btn btn-mini' %>
+            <%= link_to t('.password', :default => t("helpers.links.password")),
+                        change_admin_password_path(admin),
+                        :class => 'btn btn-mini btn-success' %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to t('.new', :default => t("helpers.links.new")),
+            new_admin_modules_admin_path,
+            :class => 'btn btn-primary' %>

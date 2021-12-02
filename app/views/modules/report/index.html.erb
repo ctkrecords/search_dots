@@ -1,0 +1,55 @@
+<div class="page-content">
+  <div class="page-header position-relative">
+    <h1>
+      Report
+      <small>
+        <i class="icon-double-angle-right"></i>
+        overview &amp; stats
+      </small>
+    </h1>
+  </div>
+  <div class="row-fluid">
+    <div class="span12">
+      <div class='span2 offset1'>
+        <%=link_to '/modules/reports/company', :class=>"btn btn-app" do%>
+          <i class="icon-signal"></i> Semanal
+        <% end %>
+      </div>
+      <div class='span2'>
+        <%=link_to '/modules/reports/track', :class=>"btn btn-app btn-info" do%>
+          <i class="icon-calendar"></i> Mensual
+        <% end %>
+      </div>
+      <div class='span2'>
+        <%=link_to '/modules/reports/quarter', :class=>"btn btn-app btn-primary" do%>
+          <i class="icon-bar-chart"></i> Trimestral
+        <% end %>
+      </div>
+      <div class='span2'>
+        <%=link_to '/modules/reports/consolidated', :class=>"btn btn-app btn-success" do%>
+          <i class="icon-bolt"></i> Consolidado
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="row-fluid">
+    <div class="span12">
+      <div class='span2 offset1'>
+        <%=link_to '/modules/reports/quarter_hunter', :class=>"btn btn-app btn-purple" do%>
+          <i class="icon-user"></i> Consultor
+        <% end %>
+      </div>
+      <div class='span2'>
+        <%=link_to '#', :class=>"btn btn-app btn-yellow" do%>
+          <i class="icon-group"></i> País
+        <% end %>
+      </div>
+      <div class='span2'>
+        <%=link_to '#', :class=>"btn btn-app btn-warning" do%>
+          <i class="icon-globe"></i> Región
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

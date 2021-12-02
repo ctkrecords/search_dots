@@ -1,0 +1,9 @@
+<div class="row">
+  <div class="span10">
+    <ul class="nav nav-tabs">
+    <li <%=raw @companies_menu=="company" ? "class='active'" : "" %> ><a href="/companies/<%=@company.id%>">Detalles de la Empresa</a> </li>
+    <li <%=raw @companies_menu =="company-countries" ? "class='active'" : "" %> ><a href="/companies/countries/<%=@company.id%>">Países Asignados</a></li>
+    <li <%=raw @companies_menu =="company-admins" ? "class='active'" : "" %> ><a href="/companies/admins/<%=@company.id%>">Administradores</a></li>
+	    </ul>
+  </div>
+</div>

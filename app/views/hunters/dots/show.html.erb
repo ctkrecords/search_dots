@@ -1,0 +1,62 @@
+<div class="page-content">
+  <div class="page-header position-relative">
+    <h1>
+      Dots 
+      <small>
+        <i class="icon-double-angle-right"></i>
+        Semana # <%=@work_timeframe.n_number%> del <%=@work_timeframe.starts_at %> al <%=@work_timeframe.ends_at %>
+      </small>
+    </h1>
+  </div><!--/.page-header-->
+
+  <div class="row-fluid">
+    <div class="span12">
+      <%= render "partials/notices" %>
+      <table class="table table-bordered table-hover" style="width:auto">
+        <thead>
+          <tr>
+            <th>Dots</th>
+            <th>Actual</th>
+            <th>Meta</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @hunter.talent_hunters_dots.where(:work_calendar_id=>@work_timeframe.work_calendar_id).order("id ASC").each do |cdot| %>
+          <%
+            total=cdot.dots_scoreds.where(:work_timeframe_id=>@work_timeframe.id).first.total 
+            if total < cdot.goal 
+              dot_class="important"
+              dot_status="-"+(cdot.goal-total).to_s
+            elsif total == cdot.goal 
+              dot_class="yellow"
+              dot_status="ok"
+            else
+              dot_class="success"
+              dot_status="+"+(total-cdot.goal).to_s
+            end
+          %>
+          <tr>
+            <td><span class='label label-info'><%=cdot.dot.name%></span></td>
+            <td>
+              <span class="badge badge-<%=dot_class%>">
+                <%=total%>
+              </span>
+            </td>
+            <td>
+              <span ><%=dot_status %></span>
+            </td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+       <% unless params[:modal] %>
+        <div class="form-actions">
+          <%= link_to t('.back', :default => t("helpers.links.back")),
+          hunters_dots_path, :class => 'btn'  %>
+          <%= link_to t('.edit', :default => t("helpers.links.edit")),
+          edit_hunters_dot_path(@work_timeframe), :class => 'btn btn-primary' %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

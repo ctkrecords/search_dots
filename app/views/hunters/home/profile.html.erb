@@ -1,0 +1,48 @@
+<%- model_class = TalentHunter -%>
+<script src="/assets/js_highchart/highcharts.js"></script>
+<script src="/assets/js_highchart/modules/exporting.js"></script>
+<div class="page-content">
+  <div class="page-header position-relative">
+    <h1>
+      My Pofile
+      <small>
+        <i class="icon-double-angle-right"></i>
+        Talent Hunter
+      </small>
+    </h1>
+  </div><!--/.page-header-->
+
+  <div class="row-fluid">
+    <div class="span12">
+      <%= render "partials/notices" %>
+      <div class="row">
+        <div class="span2 offset1">
+          <% if @talent_hunter.photo? %>
+            <dt><strong><%= model_class.human_attribute_name(:photo) %>:</strong></dt>
+            <dd><%=image_tag(@talent_hunter.photo.url(:small),:class=>"img-rounded img-polaroid") %></dd>
+          <% end%>
+        </div>
+        <div class="span5">
+          <dl class="dl-horizontal">
+            <dt><strong><%= model_class.human_attribute_name(:firstname) %>:</strong></dt>
+            <dd><%= @talent_hunter.firstname %></dd>
+            <dt><strong><%= model_class.human_attribute_name(:lastname) %>:</strong></dt>
+            <dd><%= @talent_hunter.lastname %></dd>
+            <dt><strong><%= model_class.human_attribute_name(:email) %>:</strong></dt>
+            <dd><%= @talent_hunter.email %></dd>
+            <dt><strong><%= model_class.human_attribute_name(:country_id) %>:</strong></dt>
+            <dd><%= @talent_hunter.country.name %></dd>
+            <dt><strong><%= model_class.human_attribute_name(:is_active) %>:</strong></dt>
+            <dd><%= @talent_hunter.is_active ? "Si" : "No"%></dd>
+          </dl>
+        </div>
+      </div>
+      <div class="form-actions">
+        <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                    hunters_my_profile_edit_path, :class => 'btn' %>
+      </div>
+    </div>
+  </div>
+</div>
+
+

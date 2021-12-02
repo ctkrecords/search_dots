@@ -1,0 +1,69 @@
+<%- model_class = TalentHunter -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.pluralize %></h1>
+  <small>Filtrar por país:
+      <form action="/talent_hunters" method="GET" accept-charset="utf-8" style="display:inline">
+        <select name="country_id" id="country_id" onchange="submit()">
+          <option value="all">Todos</option>
+          <%@countries.each do |country|%>
+            <% if country.id.to_s==params[:country_id].to_s %>
+            <option selected='selected' value="<%=country.id%>"><%=country.name%></option>
+            <% else %>
+            <option value="<%=country.id%>"><%=country.name%></option>
+            <% end %>
+          <% end %>
+        </select>, por empresa
+        <select name="company_id" id="company_id" onchange="submit()">
+          <option value="all">Todas</option>
+          <%@companies.each do |company|%>
+            <% if company.id.to_s==params[:company_id].to_s %>
+            <option selected='selected' value="<%=company.id%>"><%=company.name%></option>
+            <% else %>
+            <option value="<%=company.id%>"><%=company.name%></option>
+            <% end %>
+          <% end %>
+        </select>
+      </form>
+    </small>
+</div>
+<div id="demo"></div>
+<table class="table table-bordered table-striped table-hover" id="talent_hunters">
+  <thead>
+    <tr>
+      <th><%= model_class.human_attribute_name(:photo) %></th>
+      <th><%= model_class.human_attribute_name(:id) %></th>
+      <th><%= model_class.human_attribute_name(:firstname) %></th>
+      <th><%= model_class.human_attribute_name(:lastname) %></th>
+      <th><%= model_class.human_attribute_name(:email) %></th>
+      <th><%= model_class.human_attribute_name(:country_id) %></th>
+      <th><%= model_class.human_attribute_name(:is_active) %></th>
+      <th><%=t '.actions', :default => t("helpers.actions") %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @talent_hunters.each do |talent_hunter| %>
+      <tr>
+        <td style="text-align:center !important"><%= link_to image_tag(talent_hunter.photo.url(:mini),:class=>"img-rounded"), talent_hunter_path(talent_hunter) %></td>
+        <td><%= link_to talent_hunter.id, talent_hunter_path(talent_hunter) %></td>
+        <td><%= talent_hunter.firstname %></td>
+        <td><%= talent_hunter.lastname %></td>
+        <td><%= talent_hunter.email %></td>
+        <td><%= talent_hunter.country.shortname %></td>
+        <td><%= talent_hunter.is_active ? "Si" : "No"%></td>
+        <td>
+          <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                      edit_talent_hunter_path(talent_hunter), :class => 'btn btn-mini' %>
+          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                      talent_hunter_path(talent_hunter),
+                      :method => :delete,
+                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                      :class => 'btn btn-mini btn-danger' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to t('.new', :default => t("helpers.links.new")),
+            new_talent_hunter_path,
+            :class => 'btn btn-primary' %>

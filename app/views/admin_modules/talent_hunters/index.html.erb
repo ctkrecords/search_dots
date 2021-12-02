@@ -1,0 +1,58 @@
+<%- model_class = TalentHunter -%>
+<%=render "partials/notices" %>
+<div class="page-content">
+  <div class="page-header position-relative">
+    <h1>
+      Talent Hunters
+      <small>
+        <i class="icon-double-angle-right"></i>
+        list
+      </small>
+    </h1>
+  </div><!--/.page-header-->
+
+  <div class="row-fluid">
+    <div class="span12">
+      <div class="table-header">
+        Results for "Talent Hunters"
+      </div>
+      <div id="demo"></div>
+      <table class="table table-bordered table-striped table-hover" id="talent_hunters">
+        <thead>
+          <tr>
+            <th><%= model_class.human_attribute_name(:photo) %></th>
+            <th><%= model_class.human_attribute_name(:firstname) %></th>
+            <th><%= model_class.human_attribute_name(:lastname) %></th>
+            <th><%= model_class.human_attribute_name(:email) %></th>
+            <th><%= model_class.human_attribute_name(:country_id) %></th>
+            <th><%= model_class.human_attribute_name(:is_active) %></th>
+            <th><%=t '.actions', :default => t("helpers.actions") %></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @talent_hunters.each do |talent_hunter| %>
+            <tr>
+              <td style="text-align:center !important"><%= link_to image_tag(talent_hunter.photo.url(:mini),:class=>"img-rounded"), admin_modules_talent_hunter_path(talent_hunter) %></td>
+              <td><%=link_to talent_hunter.firstname , admin_modules_talent_hunter_path(talent_hunter) %></td>
+              <td><%= talent_hunter.lastname %></td>
+              <td><%= talent_hunter.email %></td>
+              <td><%= talent_hunter.country.shortname if talent_hunter.country %></td>
+              <td><%= talent_hunter.is_active ? "Si" : "No"%></td>
+              <td>
+                <%= link_to t('.edit', :default => t("helpers.links.edit")), edit_admin_modules_talent_hunter_path(talent_hunter), :class => 'btn btn-mini' %>
+                <%= link_to t('.password', :default => t("helpers.links.password")), change_password_admin_modules_talent_hunter_path(talent_hunter), :class => 'btn btn-warning btn-mini' %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <%= link_to t('.new', :default => t("helpers.links.new")), new_admin_modules_talent_hunter_path, :class => 'btn btn-primary' %>
+    </div>
+  </div>
+</div>
+<script>
+    var oTable1 = $('#talent_hunters').dataTable( {
+    "aoColumns": [
+        { "bSortable": false },null, null,null, null, null,{ "bSortable": false }
+    ] } );
+</script>

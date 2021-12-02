@@ -1,0 +1,38 @@
+<% if current_admin.is_root %>
+	<%=side_menu_item("home",@menu_scope,"Dashboard","/settings/index","icon-desktop").html_safe%>
+	<%=side_menu_item("admins",@menu_scope,"Administradores","/admins","icon-user").html_safe%>
+	<%=side_menu_item("countries",@menu_scope,"Países","/countries","icon-flag").html_safe%>
+	<%=side_menu_item("companies",@menu_scope,"Empresas","/companies","icon-briefcase").html_safe%>
+	<%=side_menu_item("talent_hunters",@menu_scope,"Talent Hunters","/talent_hunters","icon-bolt").html_safe%>
+<% elsif current_admin.is_company_admin %>
+	<%=side_menu_item("home",@menu_scope,"Dashboard","/admin_modules/panel/home","icon-desktop").html_safe%>
+	<%=side_menu_item("modules",@menu_scope,"Modulos","#","icon-list-alt",true).html_safe%>
+	<ul class="submenu">
+		<%=side_sub_menu_item("dot_module",@settings_scope,"Modulo de Dots","/modules/dots",true).html_safe%>
+		<%#=side_sub_menu_item("dot_billing",@settings_scope,"Modulo de Billings","/modules/billings",true).html_safe%>
+	<%=side_menu_item("reports",@menu_scope,"Reportes","#","icon-list",true).html_safe%>
+	<ul class="submenu">
+		<%=side_sub_menu_item("dot_reports",@settings_scope,"Reportes Dots","/modules/reports",true).html_safe%>
+		<%#=side_sub_menu_item("billing_reports",@settings_scope,"Reportes Billings","/modules/reports/billings",true).html_safe%>
+	<%=side_menu_item("settings",@menu_scope,"Settings","#","icon-cog",true).html_safe%>
+	<ul class="submenu">
+		<%=side_sub_menu_item("general_info",@settings_scope,"Info General","/admin_modules/panel/settings").html_safe%>
+		<%=side_sub_menu_item("work_calendar",@settings_scope,"Calendarios Laborales","/admin_modules/panel/work_calendar").html_safe%>
+		<%=side_sub_menu_item("dot_settings",@settings_scope,"Dots","/admin_modules/dots/index").html_safe%>
+		<%=side_sub_menu_item("talent_hunters",@settings_scope,"Talent Hunters","/admin_modules/talent_hunters").html_safe%>
+		<%=side_sub_menu_item("admins",@settings_scope,"Admins","/admin_modules/admins",true).html_safe%>
+<% elsif current_admin.is_country_admin %>
+	<%=side_menu_item("home",@menu_scope,"Dashboard","/modules/panel/home","icon-desktop").html_safe%>
+	<%=side_menu_item("modules",@menu_scope,"Modulos","#","icon-list-alt",true).html_safe%>
+	<ul class="submenu">
+		<%=side_sub_menu_item("dot_module",@settings_scope,"Modulo de Dots","/modules/dots",true).html_safe%>
+		<%#=side_sub_menu_item("dot_billing",@settings_scope,"Modulo de Billings","/modules/billings",true).html_safe%>
+	<%=side_menu_item("reports",@menu_scope,"Reportes","#","icon-list",true).html_safe%>
+	<ul class="submenu">
+		<%=side_sub_menu_item("dot_reports",@settings_scope,"Reportes Dots","/modules/reports",true).html_safe%>
+		<%#=side_sub_menu_item("billing_reports",@settings_scope,"Reportes Billings","/modules/reports/billings",true).html_safe%>
+<% end %>
+
+															
+															
+														

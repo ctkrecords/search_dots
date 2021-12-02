@@ -1,0 +1,606 @@
+<?xml version="1.0"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet" xmlns:html="http://www.w3.org/TR/REC-html40">
+	<DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
+		<LastAuthor><%=current_admin.fullname%></LastAuthor>
+		<Created><%=Date.today%></Created>
+		<Version>1.00</Version>
+	</DocumentProperties>
+	<OfficeDocumentSettings xmlns="urn:schemas-microsoft-com:office:office">
+		<AllowPNG/>
+		<Colors>
+			<Color>
+				<Index>8</Index>
+				<RGB>#7E0021</RGB>
+			</Color>
+		</Colors>
+	</OfficeDocumentSettings>
+	<ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
+		<WindowHeight>8190</WindowHeight>
+		<WindowWidth>16380</WindowWidth>
+		<WindowTopX>0</WindowTopX>
+		<WindowTopY>0</WindowTopY>
+		<TabRatio>198</TabRatio>
+		<ProtectStructure>False</ProtectStructure>
+		<ProtectWindows>False</ProtectWindows>
+	</ExcelWorkbook>
+	<Styles>
+		<Style ss:ID="Default" ss:Name="Normal">
+			<Alignment ss:Vertical="Bottom"/>
+			<Borders/>
+			<Font ss:FontName="Arial" x:Family="Swiss"/>
+			<Interior/>
+			<NumberFormat/>
+			<Protection/>
+		</Style>
+		<Style ss:ID="s111">
+			<Font ss:FontName="Calibri" x:Family="Swiss" ss:Size="11"/>
+		</Style>
+		<Style ss:ID="sgeneric">
+			<Alignment ss:Vertical="Bottom" ss:WrapText="1"/>
+			<Font ss:FontName="Calibri" x:Family="Swiss" ss:Size="11"/>
+		</Style>
+		<Style ss:ID="snumber">
+			<Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1"/>
+			<Borders>
+				<Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+				<Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+				<Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+				<Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+			</Borders>
+			<Font ss:FontName="Calibri" x:Family="Swiss" ss:Size="11"/>
+		</Style>
+		<Style ss:ID="sblack_cel">
+			<Alignment ss:Horizontal="Center" ss:Vertical="Center"/>
+			<Borders>
+				<Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+				<Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+				<Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+				<Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+			</Borders>
+			<Font ss:FontName="Calibri" x:Family="Swiss" ss:Size="11" ss:Color="#FFFFFF"/>
+			<Interior ss:Color="#848484" ss:Pattern="Solid"/>
+		</Style>
+		<Style ss:ID="sorange_cel">
+			<Alignment ss:Horizontal="Center" ss:Vertical="Center"/>
+			<Borders>
+				<Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+				<Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+				<Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+				<Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+			</Borders>
+			<Font ss:FontName="Calibri" x:Family="Swiss" ss:Size="11" ss:Color="#454545"/>
+			<Interior ss:Color="#FFC657" ss:Pattern="Solid"/>
+		</Style>
+		<Style ss:ID="sred_cel">
+			<Alignment ss:Horizontal="Center" ss:Vertical="Center"/>
+			<Borders>
+				<Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+				<Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+				<Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+				<Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+			</Borders>
+			<Font ss:FontName="Calibri" x:Family="Swiss" ss:Size="11" ss:Color="#FFFFFF"/>
+			<Interior ss:Color="#E04141" ss:Pattern="Solid"/>
+		</Style>
+		<Style ss:ID="stitle">
+			<Alignment ss:Vertical="Bottom"/>
+			<Borders>
+				<Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+				<Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+			</Borders>
+			<Font ss:FontName="Calibri" x:Family="Swiss" ss:Size="12" ss:Bold="1" ss:Color="#FFFFFF"/>
+			<Interior ss:Color="#848484" ss:Pattern="Solid"/>
+		</Style>
+		<Style ss:ID="stitle_ini">
+			<Alignment ss:Vertical="Bottom"/>
+			<Borders>
+				<Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+				<Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+				<Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+			</Borders>
+			<Font ss:FontName="Calibri" x:Family="Swiss" ss:Size="12" ss:Bold="1" ss:Color="#FFFFFF"/>
+			<Interior ss:Color="#848484" ss:Pattern="Solid"/>
+		</Style>
+		<Style ss:ID="stitle_fin">
+			<Alignment ss:Vertical="Bottom"/>
+			<Borders>
+				<Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+				<Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+				<Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+			</Borders>
+			<Font ss:FontName="Calibri" x:Family="Swiss" ss:Size="12" ss:Bold="1" ss:Color="#FFFFFF"/>
+			<Interior ss:Color="#848484" ss:Pattern="Solid"/>
+		</Style>
+		<Style ss:ID="sDotname">
+			<Alignment ss:Horizontal="Left" ss:Vertical="Center" ss:WrapText="1"/>
+			<Borders>
+				<Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+				<Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+				<Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+				<Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+			</Borders>
+			<Font ss:FontName="Calibri" x:Family="Swiss" ss:Size="11"/>
+		</Style>
+		<Style ss:ID="stitlered">
+			<Alignment ss:Vertical="Center" ss:WrapText="1"/>
+			<Borders>
+				<Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+				<Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+			</Borders>
+			<Font ss:FontName="Calibri" x:Family="Swiss" ss:Size="12" ss:Bold="1"/>
+			<Interior ss:Color="#DC1818" ss:Pattern="Solid"/>
+		</Style>
+		<Style ss:ID="stitlered_ini">
+			<Alignment ss:Vertical="Bottom"/>
+			<Borders>
+				<Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+				<Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+				<Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+			</Borders>
+			<Font ss:FontName="Calibri" x:Family="Swiss" ss:Size="12" ss:Bold="1" ss:Color="#FFFFFF"/>
+			<Interior ss:Color="#DC1818" ss:Pattern="Solid"/>
+		</Style>
+		<Style ss:ID="stitlered_fin">
+			<Alignment ss:Vertical="Bottom"/>
+			<Borders>
+				<Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+				<Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+				<Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+			</Borders>
+			<Font ss:FontName="Calibri" x:Family="Swiss" ss:Size="12" ss:Bold="1" ss:Color="#FFFFFF"/>
+			<Interior ss:Color="#DC1818" ss:Pattern="Solid"/>
+		</Style>
+		<Style ss:ID="sgray_col">
+			<Alignment ss:Horizontal="Center" ss:Vertical="Bottom" ss:WrapText="1"/>
+			<Borders>
+				<Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+				<Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+				<Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+				<Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+			</Borders>
+			<Font ss:FontName="Calibri" x:Family="Swiss" ss:Size="11" ss:Bold="1" ss:Color="#000000"/>
+			<Interior ss:Color="#ECECEC" ss:Pattern="Solid"/>
+		</Style>
+	</Styles>
+	<Worksheet ss:Name="<%=@country.country.name %> - Por Trimestre ">
+		<Table ss:ExpandedRowCount="60" x:FullColumns="1" x:FullRows="1" ss:StyleID="s111" ss:DefaultColumnWidth="60.75" ss:DefaultRowHeight="15">
+			<Column ss:StyleID="s111" ss:AutoFitWidth="0" ss:Width="131.25"/>
+			<Column ss:StyleID="s111" ss:AutoFitWidth="0" ss:Width="53.25" ss:Span="10"/>
+				<Row>
+				  <Cell ss:Index="2" ss:StyleID="sgeneric"/>
+				  <%@country.country.talent_hunters.for_report.order("talent_hunters.created_at ASC").each do |hunter| %>
+				  	<Cell ss:StyleID="sgeneric"/>
+				  <% end %>
+				  <Cell ss:StyleID="sgeneric"/>
+				  <Cell ss:StyleID="sgeneric"/>
+				  <Cell ss:StyleID="sgeneric"/>
+				  <Cell ss:StyleID="sgeneric"/>
+				  <Cell ss:StyleID="sgeneric"/>
+				  <Cell ss:StyleID="sgeneric"/>
+				</Row>
+
+				<Row ss:AutoFitHeight="0">
+					<Cell ss:StyleID="stitle_ini">
+						<Data ss:Type="String"><%=@country.country.name %> - Trimestre I</Data>
+					</Cell>
+					<%@country.country.talent_hunters.for_report.order("talent_hunters.created_at ASC").each do |hunter| %>
+						<Cell ss:StyleID="stitle"/>
+					<% end %>
+					<Cell ss:StyleID="stitle"/>
+					<Cell ss:StyleID="stitle"/>
+					<Cell ss:StyleID="stitle"/>
+					<Cell ss:StyleID="stitle"/>
+					<Cell ss:StyleID="stitle"/>
+					<Cell ss:StyleID="stitle_fin"/>
+				</Row>
+
+				<Row>
+					<Cell ss:StyleID="sgray_col">
+						<Data ss:Type="String">TALENT HUNTERS</Data>
+					</Cell>
+
+					<%@country.country.talent_hunters.for_report.order("talent_hunters.created_at ASC").each do |hunter| %>
+						<Cell ss:StyleID="sgray_col">
+							<Data ss:Type="String"><%=hunter.firstname%></Data>
+						</Cell>
+					<% end %>
+
+					<Cell ss:StyleID="sblack_cel">
+						<Data ss:Type="String">TOTAL</Data>
+					</Cell>
+					<Cell ss:StyleID="sblack_cel">
+						<Data ss:Type="String">META</Data>
+					</Cell>
+					<Cell ss:StyleID="sblack_cel">
+						<Data ss:Type="String">SEMANAS</Data>
+					</Cell>
+					<Cell ss:StyleID="sblack_cel">
+						<Data ss:Type="String">ESPERADO</Data>
+					</Cell>
+					<Cell ss:StyleID="sblack_cel">
+						<Data ss:Type="String">PROMEDIO</Data>
+					</Cell>
+					<Cell ss:StyleID="sorange_cel">
+						<Data ss:Type="String"> +/- </Data>
+					</Cell>
+				</Row>
+
+				<%@country.countries_dots.order("countries_dots.dot_id ASC").each do |dot| %>
+	    			<%total_dot=0%>
+	    			<%goal_dot=0%>
+	    			<%country_goal=0%>
+					<%country_goal=@country.country.talent_hunters.for_report.first.talent_hunters_dots.where(:dot_id=>dot.dot.id).first.goal%>
+	    			<Row>
+	    				<Cell ss:StyleID="sDotname">
+							<Data ss:Type="String"><%=dot.dot.name%></Data>
+						</Cell>
+	    				<%@country.country.talent_hunters.for_report.order("talent_hunters.created_at ASC").each do |hunter| %>
+							<% hunter.talent_hunters_dots.order("id ASC").where(:dot_id=>dot.dot.id).each do |goal| %>
+								<Cell ss:StyleID="snumber">
+									<% scored=goal.dots_scoreds.includes(:work_timeframe).where("work_timeframes.quarter=1") %>
+									<Data ss:Type="Number"><%=scored.sum("total")%></Data>
+									<%total_dot+=scored.sum("total")%>
+									<%goal_dot=goal.goal if goal_dot==0%>
+								</Cell>
+							<% end %>
+	    				<% end %>
+	    				<Cell ss:StyleID="sblack_cel">
+							<Data ss:Type="Number"><%=total_dot%></Data>
+						</Cell>
+						<Cell ss:StyleID="sblack_cel">
+							<Data ss:Type="Number"><%=goal_dot%></Data>
+						</Cell>
+						<Cell ss:StyleID="sblack_cel">
+							<Data ss:Type="Number"><%=@current_timeframes.active.where("quarter=1").count.to_i%></Data>
+						</Cell>
+						<Cell ss:StyleID="sblack_cel">
+							<Data ss:Type="Number"><%=(goal_dot*@country.country.talent_hunters.for_report.count)*@current_timeframes.active.where("quarter=1").count%></Data>
+						</Cell>
+						<Cell ss:StyleID="sblack_cel">
+							<Data ss:Type="Number"><%=((total_dot.to_f)/@current_timeframes.where("quarter=1").count.to_f).round%></Data>
+						</Cell>
+						<% esp_por=((total_dot*100)/((goal_dot*@country.country.talent_hunters.for_report.count)*@current_timeframes.active.where("quarter=1").count)).to_d rescue 0 %>
+						<Cell ss:StyleID="sred_cel">
+							<Data ss:Type="String"><%=esp_por%>%</Data>
+						</Cell>
+					</Row>
+	    		<%end %>
+
+				<Row>
+				  <Cell ss:Index="2" ss:StyleID="sgeneric"/>
+				  <%@country.country.talent_hunters.for_report.order("talent_hunters.created_at ASC").each do |hunter| %>
+				  	<Cell ss:StyleID="sgeneric"/>
+				  <% end %>
+				  <Cell ss:StyleID="sgeneric"/>
+				  <Cell ss:StyleID="sgeneric"/>
+				  <Cell ss:StyleID="sgeneric"/>
+				  <Cell ss:StyleID="sgeneric"/>
+				  <Cell ss:StyleID="sgeneric"/>
+				  <Cell ss:StyleID="sgeneric"/>
+				</Row>
+
+				<Row ss:AutoFitHeight="0">
+					<Cell ss:StyleID="stitle_ini">
+						<Data ss:Type="String"><%=@country.country.name %> - Trimestre II</Data>
+					</Cell>
+					<%@country.country.talent_hunters.for_report.order("talent_hunters.created_at ASC").each do |hunter| %>
+						<Cell ss:StyleID="stitle"/>
+					<% end %>
+					<Cell ss:StyleID="stitle"/>
+					<Cell ss:StyleID="stitle"/>
+					<Cell ss:StyleID="stitle"/>
+					<Cell ss:StyleID="stitle"/>
+					<Cell ss:StyleID="stitle"/>
+					<Cell ss:StyleID="stitle_fin"/>
+				</Row>
+
+				<Row>
+					<Cell ss:StyleID="sgray_col">
+						<Data ss:Type="String">TALENT HUNTERS</Data>
+					</Cell>
+
+					<%@country.country.talent_hunters.for_report.order("talent_hunters.created_at ASC").each do |hunter| %>
+						<Cell ss:StyleID="sgray_col">
+							<Data ss:Type="String"><%=hunter.firstname%></Data>
+						</Cell>
+					<% end %>
+
+					<Cell ss:StyleID="sblack_cel">
+						<Data ss:Type="String">TOTAL</Data>
+					</Cell>
+					<Cell ss:StyleID="sblack_cel">
+						<Data ss:Type="String">META</Data>
+					</Cell>
+					<Cell ss:StyleID="sblack_cel">
+						<Data ss:Type="String">SEMANAS</Data>
+					</Cell>
+					<Cell ss:StyleID="sblack_cel">
+						<Data ss:Type="String">ESPERADO</Data>
+					</Cell>
+					<Cell ss:StyleID="sblack_cel">
+						<Data ss:Type="String">PROMEDIO</Data>
+					</Cell>
+					<Cell ss:StyleID="sorange_cel">
+						<Data ss:Type="String"> +/- </Data>
+					</Cell>
+				</Row>
+
+				<%@country.countries_dots.order("countries_dots.dot_id ASC").each do |dot| %>
+	    			<%total_dot=0%>
+	    			<%goal_dot=0%>
+	    			<%country_goal=0%>
+					<%country_goal=@country.country.talent_hunters.for_report.first.talent_hunters_dots.where(:dot_id=>dot.dot.id).first.goal%>
+	    			<Row>
+	    				<Cell ss:StyleID="sDotname">
+							<Data ss:Type="String"><%=dot.dot.name%></Data>
+						</Cell>
+	    				<%@country.country.talent_hunters.for_report.order("talent_hunters.created_at ASC").each do |hunter| %>
+							<% hunter.talent_hunters_dots.order("id ASC").where(:dot_id=>dot.dot.id).each do |goal| %>
+								<Cell ss:StyleID="snumber">
+									<% scored=goal.dots_scoreds.includes(:work_timeframe).where("work_timeframes.quarter=2") %>
+									<Data ss:Type="Number"><%=scored.sum("total")%></Data>
+									<%total_dot+=scored.sum("total")%>
+									<%goal_dot=goal.goal if goal_dot==0%>
+								</Cell>
+							<% end %>
+	    				<% end %>
+	    				<Cell ss:StyleID="sblack_cel">
+							<Data ss:Type="Number"><%=total_dot%></Data>
+						</Cell>
+						<Cell ss:StyleID="sblack_cel">
+							<Data ss:Type="Number"><%=goal_dot%></Data>
+						</Cell>
+						<Cell ss:StyleID="sblack_cel">
+							<Data ss:Type="Number"><%=@current_timeframes.active.where("quarter=2").count.to_i%></Data>
+						</Cell>
+						<Cell ss:StyleID="sblack_cel">
+							<Data ss:Type="Number"><%=(goal_dot*@country.country.talent_hunters.for_report.count)*@current_timeframes.active.where("quarter=2").count%></Data>
+						</Cell>
+						<Cell ss:StyleID="sblack_cel">
+							<Data ss:Type="Number"><%=((total_dot.to_f)/@current_timeframes.where("quarter=2").count.to_f).round%></Data>
+						</Cell>
+						<% esp_por=((total_dot*100)/((goal_dot*@country.country.talent_hunters.for_report.count)*@current_timeframes.active.where("quarter=2").count)).to_d rescue 0 %>
+						<Cell ss:StyleID="sred_cel">
+							<Data ss:Type="String"><%=esp_por%>%</Data>
+						</Cell>
+					</Row>
+	    		<%end %>
+			
+				<Row>
+				  <Cell ss:Index="2" ss:StyleID="sgeneric"/>
+				  <%@country.country.talent_hunters.for_report.order("talent_hunters.created_at ASC").each do |hunter| %>
+				  	<Cell ss:StyleID="sgeneric"/>
+				  <% end %>
+				  <Cell ss:StyleID="sgeneric"/>
+				  <Cell ss:StyleID="sgeneric"/>
+				  <Cell ss:StyleID="sgeneric"/>
+				  <Cell ss:StyleID="sgeneric"/>
+				  <Cell ss:StyleID="sgeneric"/>
+				  <Cell ss:StyleID="sgeneric"/>
+				</Row>
+
+				<Row ss:AutoFitHeight="0">
+					<Cell ss:StyleID="stitle_ini">
+						<Data ss:Type="String"><%=@country.country.name %> - Trimestre III</Data>
+					</Cell>
+					<%@country.country.talent_hunters.for_report.order("talent_hunters.created_at ASC").each do |hunter| %>
+						<Cell ss:StyleID="stitle"/>
+					<% end %>
+					<Cell ss:StyleID="stitle"/>
+					<Cell ss:StyleID="stitle"/>
+					<Cell ss:StyleID="stitle"/>
+					<Cell ss:StyleID="stitle"/>
+					<Cell ss:StyleID="stitle"/>
+					<Cell ss:StyleID="stitle_fin"/>
+				</Row>
+
+				<Row>
+					<Cell ss:StyleID="sgray_col">
+						<Data ss:Type="String">TALENT HUNTERS</Data>
+					</Cell>
+
+					<%@country.country.talent_hunters.for_report.order("talent_hunters.created_at ASC").each do |hunter| %>
+						<Cell ss:StyleID="sgray_col">
+							<Data ss:Type="String"><%=hunter.firstname%></Data>
+						</Cell>
+					<% end %>
+
+					<Cell ss:StyleID="sblack_cel">
+						<Data ss:Type="String">TOTAL</Data>
+					</Cell>
+					<Cell ss:StyleID="sblack_cel">
+						<Data ss:Type="String">META</Data>
+					</Cell>
+					<Cell ss:StyleID="sblack_cel">
+						<Data ss:Type="String">SEMANAS</Data>
+					</Cell>
+					<Cell ss:StyleID="sblack_cel">
+						<Data ss:Type="String">ESPERADO</Data>
+					</Cell>
+					<Cell ss:StyleID="sblack_cel">
+						<Data ss:Type="String">PROMEDIO</Data>
+					</Cell>
+					<Cell ss:StyleID="sorange_cel">
+						<Data ss:Type="String"> +/- </Data>
+					</Cell>
+				</Row>
+
+				<%@country.countries_dots.order("countries_dots.dot_id ASC").each do |dot| %>
+	    			<%total_dot=0%>
+	    			<%goal_dot=0%>
+	    			<%country_goal=0%>
+					<%country_goal=@country.country.talent_hunters.for_report.first.talent_hunters_dots.where(:dot_id=>dot.dot.id).first.goal%>
+	    			<Row>
+	    				<Cell ss:StyleID="sDotname">
+							<Data ss:Type="String"><%=dot.dot.name%></Data>
+						</Cell>
+	    				<%@country.country.talent_hunters.for_report.order("talent_hunters.created_at ASC").each do |hunter| %>
+							<% hunter.talent_hunters_dots.order("id ASC").where(:dot_id=>dot.dot.id).each do |goal| %>
+								<Cell ss:StyleID="snumber">
+									<% scored=goal.dots_scoreds.includes(:work_timeframe).where("work_timeframes.quarter=3") %>
+									<Data ss:Type="Number"><%=scored.sum("total")%></Data>
+									<%total_dot+=scored.sum("total")%>
+									<%goal_dot=goal.goal if goal_dot==0%>
+								</Cell>
+							<% end %>
+	    				<% end %>
+	    				<Cell ss:StyleID="sblack_cel">
+							<Data ss:Type="Number"><%=total_dot%></Data>
+						</Cell>
+						<Cell ss:StyleID="sblack_cel">
+							<Data ss:Type="Number"><%=goal_dot%></Data>
+						</Cell>
+						<Cell ss:StyleID="sblack_cel">
+							<Data ss:Type="Number"><%=@current_timeframes.active.where("quarter=3").count.to_i%></Data>
+						</Cell>
+						<Cell ss:StyleID="sblack_cel">
+							<Data ss:Type="Number"><%=(goal_dot*@country.country.talent_hunters.for_report.count)*@current_timeframes.active.where("quarter=3").count%></Data>
+						</Cell>
+						<Cell ss:StyleID="sblack_cel">
+							<Data ss:Type="Number"><%=((total_dot.to_f)/@current_timeframes.where("quarter=3").count.to_f).round%></Data>
+						</Cell>
+						<% esp_por=((total_dot*100)/((goal_dot*@country.country.talent_hunters.for_report.count)*@current_timeframes.active.where("quarter=3").count)).to_d rescue 0 %>
+						<Cell ss:StyleID="sred_cel">
+							<Data ss:Type="String"><%=esp_por%>%</Data>
+						</Cell>
+					</Row>
+	    		<%end %>
+			
+				<Row>
+				  <Cell ss:Index="2" ss:StyleID="sgeneric"/>
+				  <%@country.country.talent_hunters.for_report.order("talent_hunters.created_at ASC").each do |hunter| %>
+				  	<Cell ss:StyleID="sgeneric"/>
+				  <% end %>
+				  <Cell ss:StyleID="sgeneric"/>
+				  <Cell ss:StyleID="sgeneric"/>
+				  <Cell ss:StyleID="sgeneric"/>
+				  <Cell ss:StyleID="sgeneric"/>
+				  <Cell ss:StyleID="sgeneric"/>
+				  <Cell ss:StyleID="sgeneric"/>
+				</Row>
+
+				<Row ss:AutoFitHeight="0">
+					<Cell ss:StyleID="stitle_ini">
+						<Data ss:Type="String"><%=@country.country.name %> - Trimestre IV</Data>
+					</Cell>
+					<%@country.country.talent_hunters.for_report.order("talent_hunters.created_at ASC").each do |hunter| %>
+						<Cell ss:StyleID="stitle"/>
+					<% end %>
+					<Cell ss:StyleID="stitle"/>
+					<Cell ss:StyleID="stitle"/>
+					<Cell ss:StyleID="stitle"/>
+					<Cell ss:StyleID="stitle"/>
+					<Cell ss:StyleID="stitle"/>
+					<Cell ss:StyleID="stitle_fin"/>
+				</Row>
+
+				<Row>
+					<Cell ss:StyleID="sgray_col">
+						<Data ss:Type="String">TALENT HUNTERS</Data>
+					</Cell>
+
+					<%@country.country.talent_hunters.for_report.order("talent_hunters.created_at ASC").each do |hunter| %>
+						<Cell ss:StyleID="sgray_col">
+							<Data ss:Type="String"><%=hunter.firstname%></Data>
+						</Cell>
+					<% end %>
+
+					<Cell ss:StyleID="sblack_cel">
+						<Data ss:Type="String">TOTAL</Data>
+					</Cell>
+					<Cell ss:StyleID="sblack_cel">
+						<Data ss:Type="String">META</Data>
+					</Cell>
+					<Cell ss:StyleID="sblack_cel">
+						<Data ss:Type="String">SEMANAS</Data>
+					</Cell>
+					<Cell ss:StyleID="sblack_cel">
+						<Data ss:Type="String">ESPERADO</Data>
+					</Cell>
+					<Cell ss:StyleID="sblack_cel">
+						<Data ss:Type="String">PROMEDIO</Data>
+					</Cell>
+					<Cell ss:StyleID="sorange_cel">
+						<Data ss:Type="String"> +/- </Data>
+					</Cell>
+				</Row>
+
+				<%@country.countries_dots.order("countries_dots.dot_id ASC").each do |dot| %>
+	    			<%total_dot=0%>
+	    			<%goal_dot=0%>
+	    			<%country_goal=0%>
+					<%country_goal=@country.country.talent_hunters.for_report.first.talent_hunters_dots.where(:dot_id=>dot.dot.id).first.goal%>
+	    			<Row>
+	    				<Cell ss:StyleID="sDotname">
+							<Data ss:Type="String"><%=dot.dot.name%></Data>
+						</Cell>
+	    				<%@country.country.talent_hunters.for_report.order("talent_hunters.created_at ASC").each do |hunter| %>
+							<% hunter.talent_hunters_dots.order("id ASC").where(:dot_id=>dot.dot.id).each do |goal| %>
+								<Cell ss:StyleID="snumber">
+									<% scored=goal.dots_scoreds.includes(:work_timeframe).where("work_timeframes.quarter=4") %>
+									<Data ss:Type="Number"><%=scored.sum("total")%></Data>
+									<%total_dot+=scored.sum("total")%>
+									<%goal_dot=goal.goal if goal_dot==0%>
+								</Cell>
+							<% end %>
+	    				<% end %>
+	    				<Cell ss:StyleID="sblack_cel">
+							<Data ss:Type="Number"><%=total_dot%></Data>
+						</Cell>
+						<Cell ss:StyleID="sblack_cel">
+							<Data ss:Type="Number"><%=goal_dot%></Data>
+						</Cell>
+						<Cell ss:StyleID="sblack_cel">
+							<Data ss:Type="Number"><%=@current_timeframes.active.where("quarter=4").count.to_i%></Data>
+						</Cell>
+						<Cell ss:StyleID="sblack_cel">
+							<Data ss:Type="Number"><%=(goal_dot*@country.country.talent_hunters.for_report.count)*@current_timeframes.active.where("quarter=4").count%></Data>
+						</Cell>
+						<Cell ss:StyleID="sblack_cel">
+							<Data ss:Type="Number"><%=((total_dot.to_f)/@current_timeframes.where("quarter=4").count.to_f).round%></Data>
+						</Cell>
+						<% esp_por=((total_dot*100)/((goal_dot*@country.country.talent_hunters.for_report.count)*@current_timeframes.active.where("quarter=4").count)).to_d rescue 0 %>
+						<Cell ss:StyleID="sred_cel">
+							<Data ss:Type="String"><%=esp_por%>%</Data>
+						</Cell>
+					</Row>
+	    		<%end %>
+			
+				<Row>
+				  <Cell ss:Index="2" ss:StyleID="sgeneric"/>
+				  <%@country.country.talent_hunters.for_report.order("talent_hunters.created_at ASC").each do |hunter| %>
+				  	<Cell ss:StyleID="sgeneric"/>
+				  <% end %>
+				  <Cell ss:StyleID="sgeneric"/>
+				  <Cell ss:StyleID="sgeneric"/>
+				  <Cell ss:StyleID="sgeneric"/>
+				  <Cell ss:StyleID="sgeneric"/>
+				  <Cell ss:StyleID="sgeneric"/>
+				  <Cell ss:StyleID="sgeneric"/>
+				</Row>
+
+
+
+		</Table>
+
+		<WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+			<PageSetup>
+				<Layout x:StartPageNumber="1"/>
+				<Header x:Margin="0.78749999999999998" x:Data="&C&A"/>
+				<Footer x:Margin="0.78749999999999998" x:Data="&CPágina &P"/>
+				<PageMargins x:Bottom="1.0249999999999999" x:Left="0.78749999999999998" x:Right="0.78749999999999998" x:Top="1.0249999999999999"/>
+			</PageSetup>
+			<Print>
+				<ValidPrinterInfo/>
+				<HorizontalResolution>300</HorizontalResolution>
+				<VerticalResolution>300</VerticalResolution>
+			</Print>
+			<Zoom>85</Zoom>
+			<Selected/>
+			
+			<ProtectObjects>False</ProtectObjects>
+			<ProtectScenarios>False</ProtectScenarios>
+			<EnableSelection>NoSelection</EnableSelection>
+		</WorksheetOptions>
+	</Worksheet>
+</Workbook>

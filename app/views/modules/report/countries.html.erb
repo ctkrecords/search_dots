@@ -1,0 +1,38 @@
+<script src="/assets/js_highchart/highcharts.js"></script>
+<script src="/assets/js_highchart/modules/exporting.js"></script>
+
+<div class="page-content">
+  <div class="page-header position-relative pull-left">
+    <h1>
+      Dashboard
+      <small>
+        <i class="icon-double-angle-right"></i>
+        Talent Hunter
+      </small>
+    </h1>
+  </div>
+  <div class="pull-right">
+    <%=form_for @dots, :as => :date, :url => hunters_dots_path, :method=>:get,:class=>"form-inline" do |f| %>
+          Desde       <div class="input-append">
+            <input class="date-picker" id="date_starts_at" name="date[starts_at]" type="text" data-date-format="dd/mm/yyyy" value="<%=@dots.starts_at%>" />
+            <span class="add-on">
+              <i class="icon-calendar"></i>
+            </span>
+          </div>
+          Hasta 
+          <div class="input-append">
+            <input class="date-picker" id="date_ends_at" name="date[ends_at]" type="text" data-date-format="dd/mm/yyyy" value="<%=@dots.ends_at%>" />
+            <span class="add-on">
+              <i class="icon-calendar"></i>
+            </span>
+          </div>
+          <%= f.submit 'refrescar', :class => 'btn btn-info btn-small' %>
+    <%end%>
+  </div><!--/.page-header-->
+
+  <div class="row-fluid">
+    <div class="span12">
+      <%= render "partials/notices" %>
+    </div>
+  </div>
+</div>

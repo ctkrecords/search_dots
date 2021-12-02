@@ -1,0 +1,92 @@
+<script>
+  function save_dot_scored(dot_id,goal){
+
+    var dot_class, dot_status;
+    var id_text="scored-dot-id-"+dot_id;
+    //alert(id_text); // 1
+    var val= $("#"+id_text).val();
+    //alert(val);
+    $("#label-dot-"+dot_id).html("<i class='icon-spinner icon-spin white bigger-125'></i>")
+
+    if (val < goal) {
+      dot_class="important"
+      dot_status="-"+(goal-val)
+    }else if (val == goal){
+      dot_class="yellow"
+      dot_status="ok"
+    }else{
+      dot_class="success"
+      dot_status="+"+(val-goal)
+    }
+
+    $.get("/hunters/dots/assing_dot?dot_id="+dot_id+"&dot_total="+val, function(data) {
+      if (data){
+        //alert("Nice");
+        $("#label-dot-"+dot_id).removeClass("label label-important label-yellow label-success");
+        $("#label-dot-"+dot_id).addClass("label label-"+dot_class);
+        $("#label-dot-"+dot_id).html(dot_status);
+      } 
+    });
+  }
+</script>
+<div class="page-content">
+  <div class="page-header position-relative">
+    <h1>
+      Editando Dots 
+      <small>
+        <i class="icon-double-angle-right"></i>
+        Semana # <%=@work_timeframe.n_number%> del <%=@work_timeframe.starts_at %> al <%=@work_timeframe.ends_at %>
+      </small>
+    </h1>
+  </div><!--/.page-header-->
+
+  <div class="row-fluid">
+    <div class="span12">
+      <%= render "partials/notices" %>
+      <form class="form-horizontal">
+      <table class="table table-bordered table-hover" style="width:auto">
+        <thead>
+          <tr>
+            <th>Dots</th>
+            <th>Actual</th>
+            <th>Meta</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @hunter.talent_hunters_dots.where(:work_calendar_id=>@work_timeframe.work_calendar_id).order("id ASC").each do |cdot| %>
+          <%
+            dot_scored=cdot.dots_scoreds.where(:work_timeframe_id=>@work_timeframe.id).first
+            if dot_scored.total < cdot.goal 
+              dot_class="important"
+              dot_status="-"+(cdot.goal-dot_scored.total).to_s
+            elsif dot_scored.total == cdot.goal 
+              dot_class="yellow"
+              dot_status="ok"
+            else
+              dot_class="success"
+              dot_status="+"+(dot_scored.total-cdot.goal).to_s
+            end
+          %>
+          <tr>
+            <td>
+              <span class='label label-info'><%=cdot.dot.name%></span>
+            </td>
+            <td>
+                <input type="text" id="scored-dot-id-<%=dot_scored.id%>" onchange='save_dot_scored(<%=dot_scored.id%>,<%=cdot.goal%>)' value="<%=dot_scored.total%>" class="input-small span3" />
+            </td>
+            <td>
+              <span id="label-dot-<%=dot_scored.id%>" class="label label-<%=dot_class%>" ><%=dot_status %></span>
+            </td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+      </form>
+      <% unless params[:modal] %>
+        <div class="form-actions">
+          <%= link_to t('.back', :default => t("helpers.links.back")),hunters_dots_path, :class => 'btn'  %>
+      <% end %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,9 @@
+	<%=side_menu_item("home",@menu_scope,"Dashboard","/dashboard","icon-desktop").html_safe%>
+	<%=side_menu_item("modules",@menu_scope,"Modulos","#","icon-list-alt",true).html_safe%>
+	<ul class="submenu">
+		<%=side_sub_menu_item("dot_module",@settings_scope,"Modulo de Dots","/hunters/dots",true).html_safe%>
+		<%#=side_sub_menu_item("dot_billing",@settings_scope,"Modulo de Billings","/modules/billings").html_safe%>
+	<%#=side_menu_item("reports",@menu_scope,"Reportes","#","icon-list",true).html_safe%>
+	<!-- <ul class="submenu"> -->
+		<%#=side_sub_menu_item("dot_reports",@settings_scope,"Reportes Dots","/modules/reports/dots").html_safe%>
+		<%#=side_sub_menu_item("billing_reports",@settings_scope,"Reportes Billings","/modules/reports/billings",true).html_safe%>

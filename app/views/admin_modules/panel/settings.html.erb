@@ -1,0 +1,40 @@
+<div class="page-content">
+  <div class="page-header position-relative">
+    <h1>
+      Información General de la Empresa
+      <small>
+        <i class="icon-double-angle-right"></i>
+        Perfil
+      </small>
+    </h1>
+  </div><!--/.page-header-->
+
+  <div class="row-fluid">
+    <div class="span12">
+      <%= render "partials/notices" %>
+      <div class="tabbable">
+        <%= render "settings_menu" %>
+        <div class="tab-content">
+          <legend><%= t('layout.titles.company_info') %></legend>
+          <%= simple_form_for @company,:url => url_for("/admin_modules/panel/settings"),:method=>"post" ,:html => { :class => 'form-horizontal' } do |f| %>
+            <%= f.input :name %>
+            <%= f.input :website %>
+            <%= f.input :slogan %>
+            <%= f.input :contact_name %>
+            <%= f.input :contact_lastname %>
+            <%= f.input :email %>
+            <%= f.input :phones %>
+            <%= f.file_field :logo  %>
+            <% if @company.logo? %>
+              <%=image_tag(@company.logo.url(:medium),:class=>"img-rounded img-polaroid") %>
+              <p class="text-info">Seleccionar otra si se desea cambiar</p>
+            <% end%>
+            <div class="form-actions">
+              <%= f.button :submit, :class => 'btn-primary' %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

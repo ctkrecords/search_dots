@@ -1,0 +1,148 @@
+<script>
+	function save_dot_score(hunter_id,scored_id){
+		var id_text=hunter_id+"_"+scored_id;
+		//alert(id_text); // 1
+		var val= $("#"+id_text).val();
+		//alert(val);
+
+		$.get("/modules/dots/assing_scored?scored_id="+scored_id+"&score_total="+val, function(result) {
+			if (result == false)
+			{
+				alert("Nice try. Now do it again using correct password!");
+			}else if (result == true){
+				alert("Nice");
+				location.reload();
+			}
+		});
+	}
+
+	function get_dot_total(dot_id){
+		$sum_dot=0
+		$("input:text.dot_"+dot_id).each(function() {
+			$sum_dot+=Number($(this).val());
+		});
+		//alert($sum_dot);
+		$("#td_dot_"+dot_id).html($sum_dot);
+	}
+</script>
+<style>
+	form#new_date {
+		margin-bottom: 0;
+	}
+</style>
+<div class="page-content">
+	<div class="page-header position-relative">
+		<h1>
+			Control de Dots
+			<small>
+				<i class="icon-double-angle-right"></i>
+				Semana <%=@selected_timeframe.n_number %> [<%=@selected_timeframe.starts_at.to_date%> al <%=@selected_timeframe.ends_at.to_date%>]
+			</small>
+		</h1>
+	</div><!--/.page-header-->
+	<div class="row-fluid">
+		<div class="span12">
+			<% unless @work_calendar.nil? %>
+			<div class="well" style="padding:5px">
+				<div class="row-fluid">
+					<div class="pull-left">
+					    <%=form_for @dots, :as => :date, :url => modules_dots_path, :method=>:get,:class=>"form-inline" do |f| %>
+					        <div class="input-append">
+					        	<input type="hidden" name="country_id" id="country_id" value="<%=@country.id%>">
+					            <input class="date-picker span8" id="date_starts_at" name="date[starts_at]" type="text" data-date-format="dd/mm/yyyy" value="<%=@dots.starts_at%>" />
+					            <span class="add-on">
+					            	<% if params[:country_id]%>
+						            	<%= link_to modules_dots_path(:country_id=>params[:country_id]), id: "news", data: {:placement=>"left", :rel=>"tooltip", :original_title=>"Left Warning"} do%>
+						              		<i class="icon-calendar" title="asds" ></i>
+										<% end %>
+									<% else %>
+										<%= link_to modules_dots_path, id: "news", data: {:placement=>"left", :rel=>"tooltip", :original_title=>"Left Warning"} do%>
+						              		<i class="icon-calendar" title="asds" ></i>
+										<% end %>
+									<% end %>
+					            </span>
+					            <%= f.submit "Ir", :class => 'btn btn-app btn-info btn-small' %>
+					        </div>
+					    <%end%>
+					</div>
+					<div class="pull-right">
+						<div class="btn-toolbar">			 
+							<div class="btn-group">
+								<button class="btn btn-mini btn-primary">Pais [<%=@country.name%>]</button>
+								<% if current_admin.is_company_admin %>	
+								<button data-toggle="dropdown" class="btn btn-mini btn-primary dropdown-toggle"><span class="caret"></span></button>
+								<ul class="dropdown-menu">
+									<% current_admin.company.companies_countries.each do |ccountry| %>
+									<li>
+										<% if params[:date] and !params[:date][:starts_at].nil?%>
+											<a href="/modules/dots?country_id=<%=ccountry.country_id%>&date[starts_at]=<%=params[:date][:starts_at]%>"><%=ccountry.country.name %></a>
+										<% else %>
+											<a href="/modules/dots?country_id=<%=ccountry.country_id%>"><%=ccountry.country.name %></a>
+										<% end %>
+									</li>
+									<% end %>
+								</ul>
+								<% end %>
+							</div><!-- /btn-group -->
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row-fluid">
+				<table class="table table-bordered table-hover table-condensed" style="width:auto" id="tbl1">
+					<thead>
+						<tr>
+							<th>Talent Hunters</th>
+							<% @companies_dots.where(:is_deleted=>false).order("countries_dots.dot_id ASC").each do |cdot| %>
+							<th><%= cdot.dot.name %></th>
+							<% end %>
+						</tr>
+					</thead>
+					<tbody>
+						<% @talent_hunters.order("created_at ASC").each do |hunter| %>
+						<tr>
+							<td><!--<%= image_tag(hunter.photo.url(:mini),:class=>"img-rounded")%>--><span class='label label-info'><%= hunter.full_name %></span></td>
+							<% hunter.talent_hunters_dots.where(:work_calendar_id=>@work_calendar.id).includes(:dot).order("dots.id ASC").each do |goal| %>
+							<td>
+								<% scored=goal.dots_scoreds.where(:work_timeframe_id=>@selected_timeframe.id).first %>
+								<input type='text' value='<%=scored.total%>' id='<%="#{hunter.id}_#{scored.id}"%>' class='input-mini dot_<%=goal.dot_id%>' data-dot-id="<%=goal.dot_id%>" size='10' style='margin-bottom:2px;padding:4px;' onchange='save_dot_score(<%=hunter.id%>,<%=scored.id%>)' <%="disabled" if (@selected_timeframe.is_deleted or @selected_timeframe.is_disabled)%>/>
+							</td>
+							<% end %>
+						</tr>
+						<% end %>
+						<tr class="success">
+							<td>Totales</td>
+							<% @companies_dots.where(:is_deleted=>false).order("countries_dots.dot_id ASC").each do |cdot| %>
+								<td> <span class="badge badge-info" id="td_dot_<%=cdot.dot_id%>"></span> </td>
+								<script>
+									get_dot_total(<%=cdot.dot_id%>)
+									$("input:text.input-mini").on("change", function(){
+										get_dot_total($(this).attr('data-dot-id'));
+									});
+									// $sum_dot=0
+									// $("input:text.dot_<%=cdot.dot_id%>").each(function() {
+									// 	$sum_dot+=Number($(this).val());
+									// });
+									// //alert($sum_dot);
+									// $("#td_dot_<%=cdot.dot_id%>").html($sum_dot);
+								</script>
+							<% end %>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<% else%>
+			<div class="alert warning">
+				No se ha definido un calendario laboral para esta Fecha
+			</div>
+			<% end %>
+		</div>
+	</div>
+</div>
+
+<script>
+	$('.date-picker').datepicker().next().on(ace.click_event, function(){
+		$(this).prev().focus();
+	});
+	$('[data-rel=tooltip]').tooltip();
+</script>

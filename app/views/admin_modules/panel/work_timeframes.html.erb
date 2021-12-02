@@ -1,0 +1,79 @@
+<%- model_class = WorkTimeframe -%>
+<div class="page-content">
+  <div class="page-header position-relative">
+    <h1>
+      <%= t('layout.titles.períodos_laborales') %> de <%= @work_calendar.title %>
+      <small>
+        <i class="icon-double-angle-right"></i>
+         [<%= @work_calendar.country.name %>]
+      </small>
+    </h1>
+  </div><!--/.page-header-->
+  <div class="row-fluid">
+    <div class="span12">
+      <%= render "settings_menu" %>
+      <div class="tabbable">
+        <%= render "partials/notices" %>
+        <div class="tab-content">
+          <h3><%=@work_timeframes.count%> Semanas para calendario laboral</h3>
+          <table class="table table-hover table-bordered table-striped" id="work_calendars">
+            <thead>
+              <tr>
+                <th><%= model_class.human_attribute_name(:n_number) %></th>
+                <th><%= model_class.human_attribute_name(:starts_at) %></th>
+                <th><%= model_class.human_attribute_name(:ends_at) %></th>
+                <th><%= model_class.human_attribute_name(:month) %></th>
+                <th><%= model_class.human_attribute_name(:quarter) %></th>
+                <th><%=t '.actions', :default => t("helpers.actions") %></th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if @work_calendar.timeframe_type=="S"
+                  timeframe_type="Semana "
+                 elsif  @work_calendar.timeframe_type=="M"
+                  timeframe_type="Mes "
+                end
+               %>   
+
+              <% @work_timeframes.each do |timeframe| %>
+                <tr 
+                  <%if timeframe.is_disabled==true %>
+                    class="error"
+                  <%elsif timeframe.is_deleted==true  %>  
+                    class='error'
+                    <% end %>>
+                  <td><%= link_to timeframe_type+timeframe.n_number.to_s, "#"%></td>
+                  <td><%= timeframe.starts_at %></td>
+                  <td><%= timeframe.ends_at %></td>
+                  <td class="month">
+                    <%= MONTHS[timeframe.month][0] %>
+                  </td>
+                  <td class="quarter"><%= QUARTER_NAMES[timeframe.quarter][0] %></td>
+                  <td>
+                    <%= link_to  "/admin_modules/panel/disable_timeframe/#{timeframe.id}", :class => "btn btn-mini #{timeframe.is_disabled ? 'btn-light' : 'btn-primary'}" do %>
+                      <%=timeframe.is_disabled ? "<i class='icon-circle-blank'></i>".html_safe : "<i class='icon-circle'></i>".html_safe %>
+                    <% end %>
+                    <%= select_tag :month, options_for_select(MONTHS),prompt: "Select month",include_blank: false, class: "month_select", id: timeframe.id%>
+                    <%#= link_to t('.destroy', :default => t("helpers.links.destroy")), "/admin_modules/panel/delete_timeframe/#{timeframe.id}",:method => :get, :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) }, :class => 'btn btn-mini btn-danger' %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  $("select.month_select").on("change", function(){
+    // alert('cambio'+$(this).val());
+    $.ajax({
+      url: "/admin_modules/panel/work_timeframes_set_month",
+      method: "GET",
+      data: { id: $(this).attr('id'), month : $(this).val() },
+      dataType: "script"
+    });
+  });
+</script>
+

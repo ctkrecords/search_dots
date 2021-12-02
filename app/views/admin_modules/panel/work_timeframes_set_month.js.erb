@@ -1,0 +1,4 @@
+$("select#<%=@work_timeframe.id%>").parents("tr").children("td.month").html("");
+$("select#<%=@work_timeframe.id%>").parents("tr").children("td.month").append("<%= MONTHS[@work_timeframe.month][0]%>");
+$("select#<%=@work_timeframe.id%>").parents("tr").children("td.quarter").html("");
+$("select#<%=@work_timeframe.id%>").parents("tr").children("td.quarter").append("<%=QUARTER_NAMES[@work_timeframe.quarter][0]%>");

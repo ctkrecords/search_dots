@@ -1,0 +1,39 @@
+@import "bootstrap-sprockets";
+@import "bootstrap";
+
+body {
+    //padding-top: 40px;
+    //padding-bottom: 40px;
+    //background-color: #F5F5F5 !important;
+    table.dataTable thead th { border-bottom:none;padding-top:1em;padding-bottom:1em;background-color:#DEDEDE}
+    table.dataTable thead th.sorting_disabled {background-color:white}
+    table.dataTable tr.odd td.sorting_1 { background-color: #F9F9F9 !important;}
+    table.dataTable tr.even td.sorting_1 { background-color: #fff !important;}
+  
+    .text-white {
+      color: white !important;
+    }
+  
+    .container-narrow {
+      margin: 0 auto;
+      max-width: 700px;
+      hr {
+        margin: 30px 0;
+      }
+  
+      .jumbotrom {
+        margin: 60px 0;
+        text-align: center;
+  
+        h1 {
+          font-size: 70px;
+          line-height: 1;
+        }
+        
+        .btn {
+          font-size: 21px;
+          padding: 14px 24px;
+        }
+      }
+    }
+  }

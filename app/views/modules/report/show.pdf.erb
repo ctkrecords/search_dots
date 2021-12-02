@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Dashboard - SearchIn Admin</title>
+
+    <meta name="description" content="overview &amp; stats" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!--basic styles-->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+    <!--page specific plugin scripts-->
+	<style>
+		p.breark{
+			page-break-before: always;
+		}
+		table {
+			border-color: #A9A9A9 !important;
+			width: auto !important;
+		}
+		table td,table th {
+			text-transform: uppercase;
+			border-color: #A9A9A9 !important;
+			padding: 5px !important;
+		}
+	</style>
+  </head>
+  <body style="font-size:8px !important ">
+    <div class="container">
+	    <div class="row-fluid">
+	      <%@countries.each do |country| %>
+	      	<% if country.country.talent_hunters.where(:is_active=>true).size>0 %>
+	    	<div class="col-md-12">
+	    	  <div class="well well-sm">
+	    	  	<h4 style="padding:0;margin:0">
+	    	  	  Dots General
+	    	  	  <small>
+	    	  	    <i class="icon-double-angle-right"></i>
+	    	  	    Semana del <%=@selected_timeframe.starts_at.to_date%> al <%=@selected_timeframe.ends_at.to_date%>
+	    	  	  </small>
+	    	  	</h4>
+	    	  </div>
+	    	<h5 class="label label-large label-primary arrowed-right"><strong><%=country.country.name%></strong></h5>
+<!-- 	    	<div class="col-md-12" style="border:solid 1px #ddd;height:300px">
+	    		
+	    	</div> -->
+	    	<table  class="table table-striped table-bordered table-condensed">
+	    		<thead>
+	    			<th>Talent Hunter</th>
+	    			<%country.dots.where(:is_deleted=>false).each do |dot| %>
+	    				<th><%=dot.name%></th>
+	    			<% end %>
+	    		</thead>
+	    		<tbody>
+	    			<%country.country.talent_hunters.where(:is_active=>true).each do |hunter| %>
+	    				<tr>
+	    					<td><%=hunter.full_name%></td>
+	    					<% dot_sum=nil %>
+	    					<% hunter.talent_hunters_dots.each do |goal| %>
+	    						<td class="dot_<%=country.country_id%>_<%=goal.dot_id%>">
+	    							<% scored=goal.dots_scoreds.includes(:work_timeframe).where("work_timeframes.n_number=?",@selected_timeframe.n_number).first %>
+	    							<%=scored.total%>
+	    						</td>
+	    					<% end %>
+	    				</tr>
+	    			<% end %>
+	    			<tr>
+	    				<td>TOTAL</td>
+	    				<%country.dots.where(:is_deleted=>false).each do |dot| %>					
+	    					<td class="dot_sum_<%=country.country_id%>_<%=dot.id%>">
+	    					</td>
+	    					<script>
+	    						sum=0;
+	    						$('.dot_<%=country.country_id%>_<%=dot.id%>').each(function(index) {
+	    							console.log( index + ": " + $(this).text() );
+	    							sum+=Number($(this).text());
+	    						});
+	    						//console.log("Total : " + sum );
+	    						$('.dot_sum_<%=country.country_id%>_<%=dot.id%>').text(sum);
+	    					</script>
+	    				<% end %>
+	    			</tr>
+	    			<tr>
+	    				<td>Por Ejecutivo</td>
+	    				<%country.country.talent_hunters.where(:is_active=>true).first.talent_hunters_dots.each do |dot| %>		
+	    					<td class="goal_<%=dot.dot_id%>_<%=country.country_id%>"><%=dot.goal%></td>
+	    				<% end %>
+	    			</tr>
+	    			<tr>
+	    				<td>Compañia</td>
+	    				<%country.dots.where(:is_deleted=>false).each do |dot| %>					
+	    					<td class="dot_total_<%=country.country_id%>_<%=dot.id%>">
+	    					</td>
+	    					<script>
+	    						total=1;
+	    						$('.goal_<%=dot.id%>_<%=country.country_id%>').each(function(index) {
+	    							//console.log( index + ": " + $(this).text() );
+	    							total=Number($(this).text())*Number('<%=country.country.talent_hunters.where(:is_active=>true).size%>');
+	    						});
+	    						console.log("Total Final: " + sum );
+	    						$('.dot_total_<%=country.country_id%>_<%=dot.id%>').prev().text("Compañia (<%=country.country.talent_hunters.where(:is_active=>true).size%>)");
+	    						$('.dot_total_<%=country.country_id%>_<%=dot.id%>').text(total);
+	    					</script>
+	    				<% end %>
+	    			</tr>
+	    		</tbody>
+	    	</table>
+	    	<p class="breark"></p>
+	    	<% end %>
+	      <% end %>
+	    </div>        
+    </div>
+  </body>
+</html>

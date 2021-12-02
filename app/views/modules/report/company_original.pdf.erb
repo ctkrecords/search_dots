@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Dashboard - SearchIn Admin</title>
+
+    <meta name="description" content="overview &amp; stats" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+	<link href="http://searchinfiles-prod-prod.s3.amazonaws.com/static_assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="http://searchinfiles-prod-prod.s3.amazonaws.com/static_assets/css/bootstrap-responsive.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="http://searchinfiles-prod-prod.s3.amazonaws.com/static_assets/css/font-awesome.min.css" />
+
+
+    <link rel="stylesheet" href="http://searchinfiles-prod-prod.s3.amazonaws.com/static_assets/css/ace-fonts.css" />
+
+    <!--ace styles-->
+
+    <link rel="stylesheet" href="http://searchinfiles-prod-prod.s3.amazonaws.com/static_assets/css/ace.min.css" />
+    <link rel="stylesheet" href="http://searchinfiles-prod-prod.s3.amazonaws.com/static_assets/css/ace-responsive.min.css" />
+    <link rel="stylesheet" href="http://searchinfiles-prod-prod.s3.amazonaws.com/static_assets/css/ace-skins.min.css" />
+
+
+    <!--page specific plugin scripts-->
+	<style>
+		p.breark{
+			page-break-before: always;
+		}
+		table {
+			border-color: #A9A9A9 !important;
+			width: auto !important;
+			margin-bottom: 5px;
+			padding-bottom: 0;
+		}
+		table td,table th {
+			padding: 2px 2px !important;
+
+		}
+	</style>
+  </head>
+  <body style="font-size:7px !important ">
+    <div class="container">
+		<div class="row-fluid">
+			<div class="widget-header widget-header-flat">
+				<h5 class="align-center" style="padding:0;margin:0"> Dots Regional <small> <i class="icon-double-angle-right"></i> Semana del <%=@selected_timeframe.starts_at.to_date%> al <%=@selected_timeframe.ends_at.to_date%> </small> </h5>
+			</div>
+			<div class="widget-body">
+				<div class="widget-main">
+					<div class="row-fluid">
+						<%@countries.each do |country| %>
+							<% if country.country.talent_hunters.where(:is_active=>true).size>0 %>
+								<div class="row">
+									<table class="table table-striped table-bordered table-condensed pull-left">
+										<thead>
+											<tr>
+												<th width="150" class="success"><%=country.country.name%></th>
+											</tr>
+											<tr>
+												<th width="150">Talent Hunter</th>
+												<%country.country.talent_hunters.where(:is_active=>true).order("talent_hunters.created_at ASC").each do |hunter| %>
+												<th width="60" align="center"><%=hunter.firstname%></th>
+												<% end %>
+												<th width="50">Total</th>
+												<th width="75">META</th>
+												<th width="75">Compañia</th>
+												<%#country.dots.where(:is_deleted=>false).each do |dot| %>
+												<!--th><%#=dot.name%></th>-->
+												<%#end %>
+											</tr>
+										</thead>
+										<tbody>
+											<%country.dots.where(:is_deleted=>false).order("dots.id ASC").each do |dot| %>
+											<%total_dot=0%>
+											<%country_goal=0%>
+											<%country_goal=country.country.talent_hunters.where(:is_active=>true).first.talent_hunters_dots.where(:dot_id=>dot.id).first.goal%>
+											<tr>
+												<td><%=dot.name%></td>
+												<%country.country.talent_hunters.where(:is_active=>true).order("talent_hunters.created_at ASC").each do |hunter| %>
+												<% hunter.talent_hunters_dots.includes(:dot).where(:dot_id=>dot.id).order("dots.id ASC").each do |goal| %>
+												<td class="dot_<%=country.country_id%>_<%=goal.dot_id%>">
+													<% scored=goal.dots_scoreds.includes(:work_timeframe).where("work_timeframes.n_number=?",@selected_timeframe.n_number).first %>
+													<%=scored.total%>
+													<%total_dot+=scored.total%>
+												</td>
+												<% end %>
+												<% end %>
+												<td><%=total_dot%></td>
+												<td ><%=country_goal%></td>
+												<td><%=(country_goal*country.country.talent_hunters.where(:is_active=>true).size)%></td>
+											</tr>
+
+											<%end %>
+										</tbody>
+									</table>
+								</div>
+							<% end %>
+						<% end %>
+					</div>
+				</div>
+			</div>
+		</div>
+    </div>
+</body>
+</html>

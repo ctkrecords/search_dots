@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Dashboard - SearchIn Admin</title>
+
+    <meta name="description" content="overview &amp; stats" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!--basic styles-->
+
+    <link href="/assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/assets/css/bootstrap-responsive.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/assets/css/font-awesome.min.css" />
+
+    <!--[if IE 7]>
+      <link rel="stylesheet" href="assets/css/font-awesome-ie7.min.css" />
+    <![endif]-->
+
+    <!--page specific plugin styles-->
+    <%=stylesheet_link_tag "application", :media=> "all"%>
+    <%=javascript_include_tag "application", :media=> "all"%>
+    <%=csrf_meta_tags%>
+
+    <!--fonts-->
+
+    <link rel="stylesheet" href="/assets/css/ace-fonts.css" />
+
+    <!--ace styles-->
+
+    <link rel="stylesheet" href="/assets/css/ace.min.css" />
+    <link rel="stylesheet" href="/assets/css/ace-responsive.min.css" />
+    <link rel="stylesheet" href="/assets/css/ace-skins.min.css" />
+
+    <!--[if lte IE 8]>
+      <link rel="stylesheet" href="assets/css/ace-ie.min.css" />
+    <![endif]-->
+
+    <!--inline styles related to this page-->
+  </head>
+  <body>
+    <div class="container-narrow">
+      <div class="masthead">
+        <ul class="nav nav-pills pull-right">
+          <li class="active">
+            <a href="/">Home</a>
+          </li>
+          <li>
+            <a href="/">contact</a>
+          </li>
+        </ul>
+        <h3 class="muted">
+          <img src="http://s3-us-west-2.amazonaws.com/searchinfiles-prod/uploads/company_logos/1/medium/searchNEW.jpg" alt=""></h3>
+        <hr>
+        <%=yield %>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,113 @@
+en:
+  breadcrumbs:
+    application:
+      index: "Inicio"
+      panel: "Panel"
+      countries: "Países"
+      talent_hunters: "Talent Hunters"
+      companies: "Empresas"
+      dots: "Dots"
+      modules: "Módulos"
+    settings: 
+      home: "Dashboard"
+      data: "Mantenimiento"
+    panel:
+      countries: "Países"
+      settings: "Mantenimiento"
+      home: "Home"
+      index: "Módulos"
+    countries:
+      panel: "Panel"
+      data: "Mantenimiento"
+      home: "Países"
+      settings: "Mantenimiento"
+      new: "Nuevo"
+      edit: "Editando"
+      show: "Mostrando"
+    talent_hunters:
+      panel: "Panel"
+      data: "Mantenimiento"
+      home: "Talent Hunters"
+      new: "Nuevo"
+      edit: "Editando"
+      show: "Mostrando"
+    dots:
+      home: "DOT'S"
+      data: "Mantenimiento"
+      new: "Nuevo"
+      edit: "Editando"
+      show: "Mostrando"
+    companies:
+      panel: "Panel"
+      data: "Mantenimiento"
+      home: "Empresas"
+      new: "Nuevo"
+      edit: "Editando"
+      show: "Mostrando"
+      countries: "Países asignados"
+      admins: "Administradores"
+    admins:
+      panel: "Panel"
+      data: "Mantenimiento"
+      home: "Administradores"
+      settings: "Mantenimiento"
+      new: "Nuevo"
+      edit: "Editando"
+      show: "Mostrando"
+    modules:
+      dots:
+        index: "Módulos"
+        home: "DOT'S"
+        dot_index: "Home"
+        dot_country: "Dots por país"
+        dot_country_manage: "Administrando dots de país"
+        dot_th_manage: "Metas de Dots"
+        dot_th_manage_country: "Administrando metas de país"
+      panel:
+        home: "Panel"
+        settings: "Settings"
+      admins:
+        home: "Administradores"
+        index: "Panels"
+      report: 
+        index: "Reportes"
+        home: "Reportes"
+        countries: "Countries"
+        weekly: "Semanal"
+        monthly: "Mensual"
+        quarterly: "Trimestral"
+        consolidated: "Consolidado"
+        hunter: "Consultor"
+        country: "País"
+        region: "Regional"
+    admin_modules:
+      dots:
+        index: "Módulos"
+        home: "DOT'S"
+        settings: "Settings"
+        dot_index: "Home"
+        dot_country: "Dots por país"
+        dot_country_manage: "Administrando dots de país"
+        dot_th_manage: "Metas de Dots"
+        dot_th_manage_country: "Administrando metas de país"
+      panel:
+        index: "Dashboard"
+        home: "modulos"
+        settings: "Settings"
+      admins:
+        home: "Administradores"
+        settings: "Settings"
+        index: "Panel"
+      talent_hunters:
+        home: "Talent Hunters"
+        settings: "Settings"
+        index: "Panel"
+        show: "Mostrando"
+        edit: "Editando"
+    hunters:
+      panel:
+        index: "Dashboard"
+        home: "Home"
+      dots:
+        index: "Dots"
+        home: "Dots"

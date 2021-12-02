@@ -1,0 +1,69 @@
+<%- model_class = Country -%>
+<div class="page-content">
+  <div class="page-header position-relative">
+    <h1>
+      Dot's por país
+      <small>
+        <i class="icon-double-angle-right"></i>
+        Dots correspondientes a cada país
+      </small>
+    </h1>
+  </div><!--/.page-header-->
+
+  <div class="row-fluid">
+    <div class="span12">
+      <%= render "dot_menu" %>
+      <br>
+      <table class="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <th><%= model_class.human_attribute_name(:name) %></th>
+            <th><%= model_class.human_attribute_name(:dots) %></th>
+            <th><%=t '.actions', :default => t("helpers.actions") %></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @company.companies_countries.each do |cc| %>
+            <tr>
+              <td><%= cc.country.name %></td>
+              <td><%=raw cc.countries_dots.where(:is_deleted=>false).order("id ASC").map {|cdot| "<span style='background-color:#{cdot.dot.color} !important' class='label arrowed' >#{cdot.dot.name} <a href='/admin_modules/dots/remove_country_dots/#{cdot.id}' data-confirm='¿Estás seguro?' style='cursor:pointer' class='white'><i class='icon-remove bigger-130'></i></a></span>&nbsp;"}.join("")%></td>
+              <td>
+                <a href="#myModal<%=cc.id%>" role="button" class="btn btn-mini btn-success" data-toggle="modal">Administrar</a>
+                <!-- Modal -->
+                <div id="myModal<%=cc.id%>" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h3 id="myModalLabel">Asignando Dot a <%= cc.country.name %></h3>
+                  </div>
+                  <div class="modal-body">
+                    <%= form_for :new_dots, :url => url_for("/admin_modules/dots/assing_dot_to/#{cc.id}"),:method => 'post' do |f| %>
+                      <% if cc.countries_dots.where(:is_deleted=>false).size==0 %>
+                        <% dots_op=Dot.where("is_deleted=false and company_id=? or id not in (?)",current_admin.company_id,cc.countries_dots.where(:is_deleted=>false).map(&:dot_id))%>
+                      <% else %>
+                        <% dots_op=Dot.where("is_deleted=false and company_id=? and id not in (?)",current_admin.company_id,cc.countries_dots.where(:is_deleted=>false).map(&:dot_id))%>
+                      <% end %>
+                      <div class="controls">
+                        <% dots_op.order("id ASC").each do | op | %>
+                          <label>
+                            <input id="new_dots_dots_<%=op.id%>" type="checkbox" value="<%=op.id%>" name="new_dots[dots][]">
+                            <span class="lbl"><%=op.name%></span>
+                          </label>
+                        <% end %>
+                      </div>
+                      <div class="form-actions">
+                        <%= f.submit 'Asignar', :class=>"btn btn-info" %>
+                      </div>
+                    <% end %>
+                  </div>
+                  <div class="modal-footer">
+                    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,13 @@
+<%= simple_form_for @admin,:url => url_for("/admin_modules/admins/#{@admin.id}"), :method=>"put", :html => { :class => 'form-horizontal' } do |f| %>
+  <input type="hidden" name="id" value="<%=@admin.id%>">
+  <%= f.input :firstname %>
+  <%= f.input :lastname %>
+  <%= f.input :email %>
+  <%= f.association :country %>
+  <div class="form-actions">
+    <%= f.button :submit, :class => 'btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                admin_modules_admins_path, :class => 'btn' %>
+  </div>
+<% end %>
+

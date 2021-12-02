@@ -1,0 +1,120 @@
+# Files in the config/locales directory are used for internationalization
+# and are automatically loaded by Rails. If you want to use locales other
+# than English, add the necessary files in this directory.
+#
+# To use the locales, use `I18n.t`:
+#
+#     I18n.t 'hello'
+#
+# In views, this is aliased to just `t`:
+#
+#     <%= t('hello') %>
+#
+# To use a different locale, set it with `I18n.locale`:
+#
+#     I18n.locale = :es
+#
+# This would use the information in config/locales/es.yml.
+#
+# The following keys must be escaped otherwise they will not be retrieved by
+# the default I18n backend:
+#
+# true, false, on, off, yes, no
+#
+# Instead, surround them with single quotes.
+#
+# en:
+#   'true': 'foo'
+#
+# To learn more, please read the Rails Internationalization guide
+# available at https://guides.rubyonrails.org/i18n.html.
+
+en:
+  hello: "Hello world"
+  project: "Search Finance System"
+  admin_modules:
+    admins: "Administradores"
+    talent_hunters: "Talent Hunters"
+  layout:
+    titles:
+      company_settings: "Company Settings"
+    menu:
+      home: "Home"
+      reports: "Reports"
+      login: "Login"
+      logout: "Logout"
+      my_profile: "My Profile"
+
+  # Active Record -----
+  activerecord:
+      models:
+        country: "País"
+        dot: "Dots"
+        talent_hunter: "Talent Hunter"
+        admin: "Usuario"
+        admin_type: "Tipo de usuario"
+        countries_dot: "Dots por país"
+        company: "Empresas"
+        work_calendar: "Calendarios Laborales"
+        work_timeframe: "Periodos del Calendario"
+      attributes:
+        fullname: "Nombre completo"
+        country:
+          name: "Nombre"
+          shortname: "Nombre Corto"
+        dot:
+          name: "Nombre"
+          description: "Descripción"
+          is_required: "Obligatorio"
+          color: "Color"
+        talent_hunter:
+          firstname: "Nombres"
+          lastname: "Apellidos"
+          email: "Email"
+          country_id: "País"
+          country: "País"
+          is_active: "Activo?"
+          include_in_reports: "Incluir para los reportes"
+          photo: "Foto"
+        admin:
+          firstname: "Nombres"
+          lastname: "Apellidos"
+          fullname: "Nombre Completo"
+          country_id: "País"
+          country: "País"
+          email: "Email"
+          last_sign_in_at: "Ultimo acceso"
+          admin_type_id: "Nivel de Acceso"
+          is_active: "Activado?"
+          is_verified: "Confirmado?"
+          company_id: "Empresa"
+          current_password: "Contraseña actual"
+        admin_type:
+          name: "Nivel de Acceso"
+        countries_dot:
+          country_id: "País"
+          dot_id: "Dot"
+        company:
+          name: "Empresa"
+          country_id: "País"
+          country: "País"
+          logo_url: "Logo"
+          contact_name: "Nombre del contacto"
+          contact_lastname: "Apellido del contacto"
+          contact_full_name: "Contacto Empresa"
+          is_verified: "Verificado?"
+          is_approved: "Aprovado?"
+          approved_by: "Aprobado por:"
+          phones: "Teléfonos de contacto:"
+        work_calendar:
+          title: "Titulo"
+          year: "Año"
+          country: "País"
+          country_id: "País"
+          timeframe_type: "Tipo de Período"
+        work_timeframe:
+          n_number: "Semana #"
+          starts_at: "Fecha Inicio"
+          ends_at: "Fecha Fin"
+          month: "Mes"
+          quarter: "Trimestre"

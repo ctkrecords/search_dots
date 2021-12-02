@@ -1,0 +1,118 @@
+<div class="page-content">
+  <div class="page-header position-relative">
+    <h1>
+      Dots
+      <small>
+        <i class="icon-double-angle-right"></i>
+        Dots para mi empresa
+      </small>
+    </h1>
+  </div><!--/.page-header-->
+
+  <div class="row-fluid">
+    <div class="span12">
+        <%= render "dot_menu" %>
+        <br>  
+          <table class="table table-bordered table-hover table-striped" id="dots_company">
+            <thead>
+              <tr>
+                <th>Dot</th>
+                <th>Color</th>
+                <th>Descripción</th>
+                <th>Obligatorio</th>
+                <th>Fecha Creación</th>
+                <th><%=t '.actions', :default => t("helpers.actions") %></th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @dots.each do |dot| %>
+                <tr>
+                  <td><%=dot.name %></td>
+                  <td>
+                    <span style="background-color:<%=dot.color%>" class="btn-colorpicker"></span>
+                  </td>
+                  <td><%=dot.description%></td>
+                  <td><%=dot.is_required ? "Si" : "No" %></td>
+                  <td><%=dot.created_at.strftime("%d-%B-%Y %I:%M") %></td>
+                  <td>
+                     <%= link_to "/admin_modules/dots/delete/#{dot.id}", :method => :get, :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) }, :class => 'btn btn-mini btn-danger' do %>
+                        <i class="icon-trash"></i>
+                     <% end %>
+                     <a href="#myModal<%=dot.id%>" role="button" class="btn btn-mini btn-info" data-toggle="modal"><i class="icon-edit"></i></a>
+                     <!-- Modal -->
+                     <div id="myModal<%=dot.id%>" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                       <div class="modal-header">
+                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                         <h3 id="myModalLabel">Editanto Dot "<%=dot.name %>"</h3>
+                       </div>
+                       <div class="modal-body">
+                         <%= simple_form_for dot, :url => url_for("/admin_modules/dots/update_dot/#{dot.id}"),:method => 'post' do |f| %>
+                           <%= f.error_notification %>
+                           <div class="form-inputs">
+                               <%= f.input :name %>
+                               <%= f.input :description, input_html: { rows: '5' } %>
+                               <div class="control-group boolean optional dot_is_required">
+                                 <label class="boolean optional control-label" for="dot_is_required">Activo?</label>
+                                 <div class="controls">
+                                     <input type="checkbox" name="dot[is_required]" id="dot_is_required" class="boolean optional" checked="checked"> 
+                                     <span class="lbl"></span>
+                                 </div>
+                               </div>
+                               <%= f.input :color, input_html: { class: 'color_picker' }  %>
+                           </div>
+                           <div class="form-actions">
+                             <%= f.button :submit, "Update", :class=>"btn btn-info" %>
+                           </div>
+                         <% end %>
+                       </div>
+                       <div class="modal-footer">
+                         <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+                       </div>
+                     </div>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        
+                  <!-- Button to trigger modal -->
+          <a href="#myModal" role="button" class="btn btn-primary" data-toggle="modal">Nuevo </a>
+
+          <!-- Modal -->
+          <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+              <h3 id="myModalLabel">Crear nuevo dot</h3>
+            </div>
+            <div class="modal-body">
+              <%= simple_form_for @dot, :url => url_for("/admin_modules/dots/create"),:html => { :class => 'form-horizontal' } do |f| %>
+                 <%= f.error_notification %>
+                 <div class="form-inputs">
+                   <%= f.input :name %>
+                   <%= f.input :description, input_html: { rows: '5' } %>
+                   <div class="control-group boolean optional dot_is_required">
+                     <label class="boolean optional control-label" for="dot_is_required">Activo?</label>
+                     <div class="controls">
+                         <input type="checkbox" name="dot[is_required]" id="dot_is_required" class="boolean optional" checked="checked"> 
+                         <span class="lbl"></span>
+                     </div>
+                   <%= f.input :color, input_html: { class: 'color_picker' } %>
+                 </div>
+                 <div class="form-actions">
+                   <%= f.button :submit, "Asignar", :class=>"btn btn-info" %>
+                 </div>
+              <% end %>
+            </div>
+            <div class="modal-footer">
+              <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+            </div>
+          </div>
+    </div>
+  </div>
+</div>
+<script>
+  $(function() {
+    $('.color_picker').colorpicker();
+  });
+  
+</script>

@@ -1,0 +1,16 @@
+<div class="hero-unit hero_unit_20">
+  <div class="row">
+    <div class="span7">
+      <h2><%=company.name%> <small><em class="red"><%=company.slogan%></em></small></h2>
+      <%= link_to "#{company.website}", "http://#{company.website}" %>
+    </div>
+    <div class="span2 pull-right">
+      <%=image_tag company.logo.url(:small), :class=>"img-polaroid" %>
+      <%if current_admin.is_country_admin%>
+      	<div class="caption">
+      	  <p style="text-align:center "><%= current_admin.country.name %></p>
+      	</div>
+      <%end %>
+    </div>
+  </div>
+</div>

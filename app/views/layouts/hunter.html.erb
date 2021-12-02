@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Dashboard - SearchIn Talent hunter</title>
+
+    <meta name="description" content="overview &amp; stats" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!--basic styles-->
+
+    <link href="/assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/assets/css/bootstrap-responsive.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/assets/css/font-awesome.min.css" />
+
+    <!--[if IE 7]>
+      <link rel="stylesheet" href="assets/css/font-awesome-ie7.min.css" />
+    <![endif]-->
+
+    <!--page specific plugin styles-->
+    <%=stylesheet_link_tag "application", :media=> "all"%>
+    <%=javascript_include_tag "application", :media=> "all"%>
+    <%=csrf_meta_tags%>
+
+    <link rel="stylesheet" href="/assets/css/jquery-ui-1.10.3.custom.min.css" />
+    <link rel="stylesheet" href="/assets/css/jquery.gritter.css" />
+    <link rel="stylesheet" href="/assets/css/chosen.css" />
+    <link rel="stylesheet" href="/assets/css/datepicker.css" />
+    <link rel="stylesheet" href="/assets/css/bootstrap-timepicker.css" />
+    <link rel="stylesheet" href="/assets/css/daterangepicker.css" />
+    <link rel="stylesheet" href="/assets/css/colorpicker.css" />
+
+
+    <!--fonts-->
+
+    <link rel="stylesheet" href="/assets/css/ace-fonts.css" />
+
+    <!--ace styles-->
+
+    <link rel="stylesheet" href="/assets/css/ace.min.css" />
+    <link rel="stylesheet" href="/assets/css/ace-responsive.min.css" />
+    <link rel="stylesheet" href="/assets/css/ace-skins.min.css" />
+
+    <!--[if lte IE 8]>
+      <link rel="stylesheet" href="assets/css/ace-ie.min.css" />
+    <![endif]-->
+
+    <!--inline styles related to this page-->
+
+    <style>
+        .text-white {
+            color: white !important;
+        }
+        td.text-white:hover,.text-white:hover {
+            color: grey !important;
+        }
+        .label-red, .badge-red {
+            background-color: #E33115 !important;
+        }
+        .label-green, .badge-green {
+            background-color: #35DC24 !important;
+        }
+        .label-yellow2, .badge-yellow2 {
+            background-color: #F1F219 !important;
+            color: #808080;
+        }
+    </style>
+
+    <!--basic scripts-->
+
+    <!--[if !IE]>-->
+        <script type="text/javascript">
+            window.jQuery || document.write("<script src='/assets/js/jquery-2.0.3.min.js'>"+"<"+"/script>");
+        </script>
+    <!--<![endif]-->
+
+    <!--[if IE]>
+        <script type="text/javascript">
+         window.jQuery || document.write("<script src='/assets/js/jquery-1.10.2.min.js'>"+"<"+"/script>");
+        </script>
+    <![endif]-->
+
+    <script type="text/javascript">
+        if("ontouchend" in document) document.write("<script src='/assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+    </script>
+    <script src="/assets/js/bootstrap.min.js"></script>
+
+    <!-- plugin scripts-->
+
+    <script src="/assets/js/jquery-ui-1.10.3.custom.min.js"></script>
+    <script src="/assets/js/jquery.ui.touch-punch.min.js"></script>
+    <script src="/assets/js/jquery.slimscroll.min.js"></script>
+    <script src="/assets/js/jquery.easy-pie-chart.min.js"></script>
+    <script src="/assets/js/jquery.sparkline.min.js"></script>
+    <script src="/assets/js/flot/jquery.flot.min.js"></script>
+    <script src="/assets/js/flot/jquery.flot.pie.min.js"></script>
+    <script src="/assets/js/flot/jquery.flot.resize.min.js"></script>
+
+    <script src="/assets/js/bootbox.min.js"></script>
+    <script src="/assets/js/jquery.gritter.min.js"></script>
+    <script src="/assets/js/spin.min.js"></script>
+    <script src="/assets/js/chosen.jquery.min.js"></script>
+    <script src="/assets/js/fuelux/fuelux.spinner.min.js"></script>
+    <script src="/assets/js/date-time/bootstrap-datepicker.min.js"></script>
+    <script src="/assets/js/date-time/bootstrap-timepicker.min.js"></script>
+    <script src="/assets/js/date-time/moment.min.js"></script>
+    <script src="/assets/js/date-time/daterangepicker.min.js"></script>
+    <script src="/assets/js/bootstrap-colorpicker.min.js"></script>
+    <script src="/assets/js/jquery.knob.min.js"></script>
+    <script src="/assets/js/jquery.autosize-min.js"></script>
+    <script src="/assets/js/jquery.inputlimiter.1.3.1.min.js"></script>
+    <script src="/assets/js/jquery.maskedinput.min.js"></script>
+    <script src="/assets/js/bootstrap-tag.min.js"></script>
+
+    <script src="/assets/js/jquery.dataTables.min.js"></script>
+    <script src="/assets/js/jquery.dataTables.bootstrap.js"></script>
+
+
+
+    <script src="/assets/js/prettify.js"></script>
+
+    <!--ace scripts-->
+
+    <script src="/assets/js/ace-elements.min.js"></script>
+    <script src="/assets/js/ace.min.js"></script>
+
+    <!--page specific plugin scripts-->
+
+  </head>
+  <body class="navbar-fixed breadcrumbs-fixed">
+    <div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container-fluid">
+                <a href="/dashboard" class="brand">
+                    <%=image_tag("http://searchinfiles-prod.s3.amazonaws.com/static_assets/images/huellas_blanco.png", :width=>"15") %>
+                    <small>
+                        Search Stats Control
+                    </small>
+                </a><!--/.brand-->
+
+                <ul class="nav ace-nav pull-right">
+                    <li class="light-blue">
+                        <a data-toggle="dropdown" href="#" class="dropdown-toggle">
+                            <%=image_tag(current_talent_hunter.photo(:mini), :class=>"nav-user-photo") %>
+                            <span class="user-info">
+                                <small>Welcome,</small>
+                                <%=current_talent_hunter.firstname %>
+                            </span>
+
+                            <i class="icon-caret-down"></i>
+                        </a>
+
+                        <ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-closer">
+                            <li>
+                                <%= link_to '/hunters/my_profile' do %>
+                                    <i class="icon-user"></i>
+                                    My Profile
+                                <% end %>
+                            </li>
+
+                            <li>
+                                <%= link_to '/hunters/my_profile' do %>
+                                    <i class="icon-cog"></i>
+                                    Settings
+                                <% end %>
+                            </li>
+
+                            <li class="divider"></li>
+
+                            <li>
+                                <%= link_to destroy_talent_hunter_session_path, method: :delete do %>
+                                    <i class="icon-off"></i>
+                                    Logout
+                                <% end %>
+                            </li>
+                        </ul>
+                    </li>
+                </ul><!--/.ace-nav-->
+            </div><!--/.container-fluid-->
+        </div><!--/.navbar-inner-->
+    </div>
+
+    <div class="main-container container-fluid">
+        <a class="menu-toggler" id="menu-toggler" href="#">
+            <span class="menu-text"></span>
+        </a>
+        <div class="sidebar fixed <%="menu-min" if session[:side_menu_status]==true%>" id="sidebar">
+
+            <div class="sidebar-shortcuts" id="sidebar-shortcuts">
+                <div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
+                    <button class="btn btn-small btn-success">
+                        <i class="icon-signal"></i>
+                    </button>
+
+                    <button class="btn btn-small btn-info">
+                        <i class="icon-pencil"></i>
+                    </button>
+
+                    <button class="btn btn-small btn-warning">
+                        <i class="icon-group"></i>
+                    </button>
+
+                    <button class="btn btn-small btn-danger">
+                        <i class="icon-cogs"></i>
+                    </button>
+                </div>
+
+                <div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
+                    <span class="btn btn-success"></span>
+
+                    <span class="btn btn-info"></span>
+
+                    <span class="btn btn-warning"></span>
+
+                    <span class="btn btn-danger"></span>
+                </div>
+            </div><!--#sidebar-shortcuts-->
+
+            <ul class="nav nav-list">
+                <%= render "partials/hunter_sidebar" %>
+            </ul><!--/.nav-list-->
+
+            <div class="sidebar-collapse" id="sidebar-collapse">
+                <i class="icon-double-angle-left"></i>
+            </div>
+        </div>
+        <div class="main-content">
+            <div class="breadcrumbs fixed" id="breadcrumbs">
+                <ul class="breadcrumb">
+                    <li>
+                        <i class="icon-home home-icon"></i>
+                        <a href="/dashboard">home</a>
+
+                        <span class="divider">
+                            <i class="icon-angle-right arrow-icon"></i>
+                        </span>
+                    </li>
+                </ul><!--.breadcrumb-->
+                <%= render_breadcrumbs%>
+
+
+            </div>
+            <div class="page-content">
+                <%= yield%>
+            </div> <!--#page-content-->
+            </div>
+        </div>
+        <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-small btn-inverse">
+            <i class="icon-double-angle-up icon-only bigger-110"></i>
+        </a>
+    </div>
+
+
+    <!--inline scripts related to this page-->
+
+    <script type="text/javascript">
+        $(function() {
+            $('#id-check-horizontal').removeAttr('checked').on('click', function(){
+                $('#dt-list-1').toggleClass('dl-horizontal').prev().html(this.checked ? '&lt;dl class="dl-horizontal"&gt;' : '&lt;dl&gt;');
+            }
+
+            window.prettyPrint && prettyPrint(););
+
+        });
+    </script>
+  </body>
+</html>
+

@@ -1,0 +1,58 @@
+<div class="span4">
+  <%- model_class = Admin -%>
+  <div class="page-header">
+    <h1><%=t '.title', :default => model_class.model_name.human %></h1>
+  </div>
+
+  <dl class="dl-horizontal">
+    <dt><strong><%= model_class.human_attribute_name(:firstname) %>:</strong></dt>
+    <dd><%= @admin.firstname %></dd><br>
+    <dt><strong><%= model_class.human_attribute_name(:lastname) %>:</strong></dt>
+    <dd><%= @admin.lastname %></dd><br>
+    <dt><strong><%= model_class.human_attribute_name(:country_id) %>:</strong></dt>
+    <dd><%= @admin.country.name  unless @admin.country_id.nil? %></dd><br>
+    <dt><strong><%= model_class.human_attribute_name(:admin_type_id) %>:</strong></dt>
+    <dd><%= @admin.admin_type.name unless @admin.admin_type_id.nil? %></dd><br>
+    <dt><strong><%= model_class.human_attribute_name(:email) %>:</strong></dt>
+    <dd><%= @admin.email %></dd><br>
+    <dt><strong><%= model_class.human_attribute_name(:company_id) %>:</strong></dt>
+    <dd><%= @admin.company.name unless @admin.company_id.nil? %></dd><br>
+    <dt><strong><%= model_class.human_attribute_name(:last_sign_in_at) %>:</strong></dt>
+    <dd><%= @admin.last_sign_in_at %></dd>
+  </dl>
+
+  <div class="form-actions">
+    <%= link_to t('.back', :default => t("helpers.links.back")),
+                admins_path, :class => 'btn'  %>
+    <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                edit_admin_path(@admin), :class => 'btn' %>
+      <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                admin_path(@admin),
+                :method => 'delete',
+                :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                :class => 'btn btn-danger' %>
+  </div>
+</div>
+<div class="span4">
+  <%- model_class = Admin -%>
+  <div class="page-header">
+    <h3><%=t('.other_options', :default => t("helpers.titles.other_options"))%></h3>
+  </div>
+  <div class="page-body">
+    <h5><%=t('.password', :default => t("helpers.titles.password"))%></h5>
+    <% if !(current_admin.id==@admin.id)%>
+      <% unless (@admin.is_root)%>
+        <%= link_to t('.password', :default => t("helpers.links.password")),"/change_password_user?id=#{@admin.id}", :class => 'btn btn-success' %>
+        <%end%>
+    <% else %>
+      <%= link_to t('.password', :default => t("helpers.links.password")),"/change_password", :class => 'btn btn-success' %>
+    <!--   <h5><%=t('.activate', :default => t("helpers.titles.activate"))%></h5>
+      <%#= link_to t('.activated', :default => t("helpers.links.activated")), "#", :class => 'btn disabled' %>
+      <%= link_to t('.activate', :default => t("helpers.links.activate")), "admins/access", :class => 'btn btn-primary' %>
+      <%#= link_to t('.deactivate', :default => t("helpers.links.deactivate")), "admins/access", :class => 'btn btn-danger' %>
+      <%= link_to t('.deactivated', :default => t("helpers.links.deactivated")), "#", :class => 'btn disabled' %>
+ -->
+    <% end %>
+
+  </div>
+</div>
